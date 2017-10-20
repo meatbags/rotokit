@@ -2,10 +2,10 @@ from tkinter import *
 from gui_config import *
 
 class App(Frame):
-    
+
   def __init__(self, master):
     super().__init__(master)
-        
+
     self.var = 3;
 
     self.pack()
@@ -14,7 +14,7 @@ class App(Frame):
     master.bind('<Key-Control_L>', self.log)
     master.bind('<Key-Control_R>', self.log)
     master.bind('<Key-Escape>', self.log)
-        
+
   def createWidgets(self, root):
     self.toolbar = Frame(self, bg=Config['colour']['white'])
     self.toolbar.pack(side=LEFT, fill=Y)
@@ -26,20 +26,20 @@ class App(Frame):
 
     self.canvas = Canvas(self, width=800, height=600, relief=RAISED, borderwidth=5)
     self.canvas.pack(side=RIGHT)
-    
+
     self.menu = Menu(root)
     self.fileMenu = Menu(self.menu, tearoff=0)
     self.fileMenu.add_command(label='New', command=self.log)
     self.fileMenu.add_separator()
     self.fileMenu.add_command(label='Exit', command=root.quit)
-    
+
     self.menu.add_cascade(label='File', menu=self.fileMenu)
-    
+
     root.config(menu=self.menu)
-    
+
   def log(self, key):
     print(key)
-    
+
   def getMenu(self):
     return self.menu;
 
