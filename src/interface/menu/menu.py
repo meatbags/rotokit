@@ -1,9 +1,9 @@
 from tkinter import *
-from src.interface.gui_config import *
+from src.interface.config import *
 
 class MenuBar:
-    def __init__(self, master):
-        self.menuBar = Menu(master)
+    def __init__(self, root):
+        self.menuBar = Menu(root)
 
         for item in Config['Menu']:
             newMenu = Menu(self.menuBar, tearoff=0)
@@ -13,7 +13,7 @@ class MenuBar:
 
             self.menuBar.add_cascade(label=item, menu=newMenu)
 
-        master.config(menu=self.menuBar)
+        root.config(menu=self.menuBar)
 
     def nullCommand(self):
         pass

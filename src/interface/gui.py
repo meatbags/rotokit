@@ -1,20 +1,17 @@
-# setup the TK app
+import tkinter as tk
+from src.interface.menu.menu import *
+from src.interface.layout.layout import *
+from src.interface.config import *
 
-from tkinter import *
-from src.interface.gui_menu import *
-from src.interface.gui_layout import *
-from src.interface.gui_config import *
-
-class GUI:
+class GUI(tk.Tk):
     def __init__(self):
-        # init gui
-        self.root = Tk()
-        self.root.title('Rotokit')
-        self.root.geometry(Config['Root']['InitialDimensions'])
+        super().__init__()
+        self.title('Rotokit')
+        self.geometry(Config['Root']['InitialDimensions'])
 
         # create menus & tools
-        self.menu = MenuBar(self.root)
-        self.layout = Layout(self.root)
+        self.menu = MenuBar(self)
+        self.layout = Layout(self)
 
         # run
-        self.root.mainloop()
+        self.mainloop()

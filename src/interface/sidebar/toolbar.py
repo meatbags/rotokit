@@ -1,23 +1,24 @@
 import tkinter as tk
-from src.interface.gui_config import *
+from src.interface.config import *
 
-class ToolBar:
+class ToolBar(tk.Frame):
     def __init__(self, root):
+        super().__init__(root)
+        self.pack(side=tk.TOP, fill=tk.Y)
+
         # tool
         self.tool = tk.StringVar()
 
-        # create toolbar
-        self.frame = tk.Frame(root)
-        self.frame.pack(side=tk.TOP, fill=tk.Y)
-
-        # populate
+        # populate toolbar
         for tool in Config['Toolbar']['Tools']:
             self.addButton(tool)
+
+        root.add(self)
 
     def addButton(self, key):
         # add radio button to toolbar
         tk.Radiobutton(
-            self.frame,
+            self,
             width=Config['Toolbar']['ButtonWidth'],
             command=self.onClick,
             text=key,
@@ -30,6 +31,3 @@ class ToolBar:
 
     def getTool(self):
         return self.tool.get()
-
-    def getFrame(self):
-        return self.frame
