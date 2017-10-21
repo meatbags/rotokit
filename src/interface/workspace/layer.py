@@ -1,16 +1,13 @@
 from src.interface.config import *
-import pygame
 import random
 
-class Layer(pygame.Surface):
+class Layer:
     def __init__(self, size=Config['Canvas']['DefaultSize']):
-        super().__init__(size, pygame.SRCALPHA, 32)
-        self.convert_alpha()
-        self.stroke = (255, 0, 0)
-        self.lineWidth = 1
-        self.start = (random.random() * size[0], random.random() * size[1])
-        self.end = (random.random() * size[0], random.random() * size[1])
+        self.colour = '#000000'
+        self.lineWidth = 2
+        self.start = ((random.random() * 3 - 1) * size[0], random.random() * size[1])
+        self.end = ((random.random() * 3 - 1) * size[0], random.random() * size[1])
         self.requiresDraw = True
 
-    def draw(self):
-        pygame.draw.line(self, self.stroke, self.start, self.end, self.lineWidth)
+    def draw(self, canvas):
+        canvas.create_line(self.start[0], self.start[1], self.end[0], self.end[1], fill=self.colour, width=self.lineWidth, smooth=1)

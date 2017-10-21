@@ -2,13 +2,6 @@ Config = {
     'Root': {
         'InitialDimensions': '1060x640'
     },
-    'Colour': {
-        'White': '#ffffff',
-        'Black': '#000000',
-        'Red': '#ff0000',
-        'Green': '#00ff00',
-        'Blue': '#0000ff'
-    },
     'Toolbar': {
         'ButtonWidth': 10,
         'Tools': {
@@ -38,11 +31,9 @@ Config = {
     },
     'Canvas': {
         'DefaultSize': (470, 270),
-        'BackgroundColour': (255, 255, 255, 255)
+        'BackgroundColour': '#ffffff'
     },
     'Workspace': {
         'DefaultSize': (960, 540),
-        'CanvasSeparation': 20,
-        'BackgroundColour': (240, 240, 240, 255)
     },
 };

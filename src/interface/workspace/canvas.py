@@ -1,17 +1,16 @@
 from src.interface.config import *
-import pygame
+import tkinter as tk
 
-class Canvas(pygame.Surface):
-    def __init__(self, position=(0, 0), size=Config['Canvas']['DefaultSize']):
-        super().__init__(size)
+class Canvas(tk.Canvas):
+    def __init__(self, root, size=Config['Canvas']['DefaultSize']):
+        super().__init__(root)
 
-        self.position = position
-        self.fill(Config['Canvas']['BackgroundColour'])
+        self.config(width=size[0], height=size[1], bg=Config['Canvas']['BackgroundColour'])
+        self.pack(side=tk.LEFT)
 
     def draw(self, frame, camera):
-        self.fill(Config['Canvas']['BackgroundColour'])
+        self.delete('all')
 
         for layer in frame.layers:
             if layer.requiresDraw:
-                layer.draw()
-            self.blit(layer, (0, 0))
+                layer.draw(self)
