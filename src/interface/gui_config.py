@@ -10,24 +10,27 @@ Config = {
         'Blue': '#0000ff'
     },
     'Toolbar': {
-        'Select': 'ID_TOOL_SELECT',
-        'Pen': 'ID_TOOL_PEN',
-        'Brush': 'ID_TOOL_BRUSH',
-        'Bake': 'ID_TOOL_BAKE',
-        'Match': 'ID_TOOL_MATCH',
-        'Conform': 'ID_TOOL_CONFORM',
-        'Transform': 'ID_TOOL_TRANSFORM',
-        'Hand': 'ID_TOOL_HAND',
-        'Zoom': 'ID_TOOL_ZOOM'
+        'ButtonWidth': 10,
+        'Tools': {
+            'Select': 'TOOL_SELECT',
+            'Pen': 'TOOL_PEN',
+            'Brush': 'TOOL_BRUSH',
+            'Bake': 'TOOL_BAKE',
+            'Match': 'TOOL_MATCH',
+            'Conform': 'TOOL_CONFORM',
+            'Transform': 'TOOL_TRANSFORM',
+            'Hand': 'TOOL_HAND',
+            'Zoom': 'TOOL_ZOOM'
+        }
     },
     'Menu': {
         'File': {
-            'New': 'ID_MENU_FILE_NEW',
-            'Open': 'ID_MENU_FILE_OPEN',
-            'Close': 'ID_MENU_FILE_CLOSE'
+            'New': 'MENU_FILE_NEW',
+            'Open': 'MENU_FILE_OPEN',
+            'Close': 'MENU_FILE_CLOSE'
         },
         'Edit': {
-            'Preferences': 'ID_MENU_EDIT_PREFERENCES'
+            'Preferences': 'MENU_EDIT_PREFERENCES'
         }
     }
 };

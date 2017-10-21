@@ -1,16 +1,35 @@
-from tkinter import *
+import tkinter as tk
 from src.interface.gui_config import *
 
 class ToolBar:
-    def __init__(self, master):
-        self.toolBar = Frame(master);
-        self.toolBar.pack(side=TOP, fill=X)
-        self.label = Label(self.toolBar, text='toolbar')
-        self.label.grid(row=0, column=0, sticky=NW, pady=2, padx=2)
-        col = 1
+    def __init__(self, root):
+        # tool
+        self.tool = tk.StringVar()
 
-        for tool in Config['Toolbar']:
-            toolButton = Radiobutton(self.toolBar, text=tool)
-            toolButton.grid(padx=2, pady=2, row=0, column=col, sticky=NW)
-            col += 1
-        
+        # create toolbar
+        self.frame = tk.Frame(root)
+        self.frame.pack(side=tk.TOP, fill=tk.Y)
+
+        # populate
+        for tool in Config['Toolbar']['Tools']:
+            self.addButton(tool)
+
+    def addButton(self, key):
+        # add radio button to toolbar
+        tk.Radiobutton(
+            self.frame,
+            width=Config['Toolbar']['ButtonWidth'],
+            command=self.onClick,
+            text=key,
+            variable=self.tool,
+            value=Config['Toolbar']['Tools'][key],
+            indicatoron=False).pack(anchor=tk.NW)
+
+    def onClick(self):
+        pass
+
+    def getTool(self):
+        return self.tool.get()
+
+    def getFrame(self):
+        return self.frame
