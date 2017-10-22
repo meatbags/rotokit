@@ -30,7 +30,8 @@ Config = {
             'Zoom': 'TOOL_ZOOM',
             'Proxy': 'TOOL_PROXY',
             'Mask': 'TOOL_MASK',
-            'Sculpt': 'TOOL_SCULPT'
+            'Sculpt': 'TOOL_SCULPT',
+            'Transfer': 'TOOL_TRANSFER'
         }
     },
     'Menu': {
@@ -44,8 +45,8 @@ Config = {
         'Edit': {
             'Preferences': 'MENU_EDIT_PREFERENCES'
         },
-        'Layer': {
-            'New': 'MENU_LAYER_NEW',
+        'About': {
+            'About': 'MENU_ABOUT_ABOUT'
         }
     },
 };

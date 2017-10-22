@@ -8,6 +8,8 @@ class Frame:
         self.targetCanvas = canvas
 
         # tk vars
+        self.lastSelectedLayerVar = tk.StringVar()
+        self.selectedLayerVar = tk.StringVar()
         self.lastSoloVar = tk.StringVar()
         self.soloVar = tk.StringVar()
 
@@ -16,7 +18,7 @@ class Frame:
         self.newLayer('Background')
 
         for i in range(random.randrange(1, 10)):
-            self.newLayer(i)
+            self.newLayer('L' + str(i))
 
     def draw(self):
         # draw layers to target canvas
@@ -51,16 +53,36 @@ class Frame:
         # redraw
         self.draw()
 
+    def onSelectLayer(self):
+        # set selected layer
+        if self.lastSelectedLayerVar.get() == self.selectedLayerVar.get():
+            self.lastSelectedLayerVar.set('')
+            self.selectedLayerVar.set('')
+        else:
+            self.lastSelectedLayerVar.set(self.selectedLayerVar.get())
+        #print('Selected', self.selectedLayerVar.get())
+
     def onHideLayer(self):
         # draw layers
         self.draw()
 
     def addLayerList(self, root):
         # add list of layers to element
-        self.title = tk.Frame(root)
-        self.title.pack(side=tk.TOP, fill=tk.X)
-        self.titleText = tk.Label(self.title, text=self.id)
-        self.titleText.pack(side=tk.LEFT)
+        title = tk.Frame(root)
+        title.pack(side=tk.TOP, fill=tk.X)
+        titleText = tk.Label(title, text=self.id)
+        titleText.pack(side=tk.LEFT)
+
+        # add layer list
+        layerList = tk.Frame(root)
+        layerList.pack(side=tk.TOP)
 
         for i in range(len(self.layers)-1, -1, -1):
-            self.layers[i].addListItem(root, self.soloVar, self.onSoloLayer, self.onHideLayer)
+            self.layers[i].addListItem(
+                layerList,
+                selectVar=self.selectedLayerVar,
+                selectCmd=self.onSelectLayer,
+                soloVar=self.soloVar,
+                soloCmd=self.onSoloLayer,
+                hideCmd=self.onHideLayer
+            )

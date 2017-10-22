@@ -4,6 +4,7 @@ from src.gui.layout.pane import Pane
 from src.gui.layout.toolbar import ToolBar
 from src.gui.layout.canvas import Workspace
 from src.gui.layout.layers import LayerFrame
+from src.gui.layout.timeline import Timeline
 from src.frame import Frame
 
 class Master(tk.PanedWindow):
@@ -17,7 +18,7 @@ class Master(tk.PanedWindow):
         self.main = Pane(self, orient=tk.VERTICAL)
         self.attributes = Pane(self.main, label='Attributes')
         self.viewer = Pane(self.main)
-        self.timeline = Pane(self.main, label='Timeline')
+        self.timeline = Timeline(self.main)
         self.workspace = Workspace(self.viewer)
 
         # side bar
