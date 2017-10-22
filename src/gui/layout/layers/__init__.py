@@ -1,1 +1,1 @@
-from src.gui.layout.layers.layerspane import LayersPane
+from src.gui.layout.layers.layer_frame import LayerFrame

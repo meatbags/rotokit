@@ -3,7 +3,7 @@ from src.gui.event import Events
 from src.gui.layout.pane import Pane
 from src.gui.layout.toolbar import ToolBar
 from src.gui.layout.canvas import Workspace
-from src.gui.layout.layers import LayersPane
+from src.gui.layout.layers import LayerFrame
 from src.frame import Frame
 
 class Master(tk.PanedWindow):
@@ -23,17 +23,18 @@ class Master(tk.PanedWindow):
         # side bar
         self.sidebar = Pane(self, orient=tk.VERTICAL)
         self.toolbar = ToolBar(self.sidebar)
-        self.layersPane = LayersPane(self.sidebar)
+        self.colourPicker = Pane(self.sidebar, label='Colour')
+        self.layerFrame = LayerFrame(self.sidebar)
 
         # frames
-        self.frameA = Frame('frame_a')
-        self.frameB = Frame('frame_b')
-        self.frameA.addButtons(self.layersPane.left)
-        self.frameB.addButtons(self.layersPane.right)
+        self.frameA = Frame('Frame_A', self.workspace.canvasLeft)
+        self.frameB = Frame('Frame_B', self.workspace.canvasRight)
+        self.frameA.addLayerList(self.layerFrame.left)
+        self.frameB.addLayerList(self.layerFrame.right)
+
+        self.frameA.draw()
+        self.frameB.draw()
 
         # events
-        self.events = Events(self.workspace.canvasLeft, self.workspace.canvasRight)
-        self.events.bindMouseDown(self.onMouseDown)
-
-    def onMouseDown(self, event):
-        print(event)
+        #self.events = Events(self.workspace.canvasLeft, self.workspace.canvasRight)
+        #self.events.bindMouseDown(self.onMouseDown)

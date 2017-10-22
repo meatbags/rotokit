@@ -1,12 +1,13 @@
 from src.config import Config
 from src.maths import Transform
+from src.frame.objects import Path
 import random
 import tkinter as tk
 
 class Layer:
-    def __init__(self, frame, id, name):
-        self.parent = frame.id
-        self.id = id
+    def __init__(self, parent, id, name):
+        self.parent = parent
+        self.id = str(id)
         self.name = name
         self.requiresDraw = True
         self.hidden = tk.IntVar()
@@ -14,24 +15,40 @@ class Layer:
         # transform
         self.transform = Transform()
 
-        # test
-        self.colour = '#000000'
-        self.lineWidth = 2
-        self.start = (random.random() * 100, random.random() * 100)
-        self.end = (random.random() * 100, random.random() * 100)
+        # objects
+        self.objects = []
+        for i in range(5):
+            self.addPath()
 
     def draw(self, canvas):
-        if self.requiresDraw:
-            self.requiresDraw = False
-            canvas.create_line(self.start[0], self.start[1], self.end[0], self.end[1], fill=self.colour, width=self.lineWidth)
+        if self.hidden.get() == 1:
+            self.hide(canvas)
+        else:
+            for obj in self.objects:
+                obj.draw(canvas, self.id)
 
-    def addButton(self, root):
-        self.button = tk.Frame(root, borderwidth=4, relief=tk.SUNKEN)
-        self.button.pack(side=tk.TOP, fill=tk.X)
-        self.buttonLabel = tk.Label(self.button, text=self.name)
-        self.buttonLabel.pack(side=tk.LEFT)
-        self.buttonHide = tk.Checkbutton(self.button, variable=self.hidden, text='( )', indicatoron=False)
-        self.buttonHide.pack(side=tk.RIGHT)
+    def hide(self, canvas):
+        canvas.delete(self.id)
 
-    def addObject(self, object):
-        pass
+        for obj in self.objects:
+            obj.requiresDraw = True
+
+    def solo(self, id, canvas):
+        if id == self.id:
+            self.draw(canvas)
+        else:
+            self.hide(canvas)
+
+    def addPath(self):
+        id = self.id + '_path_' + str(len(self.objects))
+        self.objects.append(Path(self, id))
+
+    def addListItem(self, root, soloVar, soloCmd, hideCmd):
+        item = tk.Frame(root, borderwidth=4, relief=tk.SUNKEN)
+        item.pack(side=tk.TOP, fill=tk.X)
+        label = tk.Label(item, text=self.name, font=Config['Global']['Font'])
+        label.pack(side=tk.LEFT)
+        buttonHide = tk.Checkbutton(item, variable=self.hidden, command=hideCmd, text='H', indicatoron=False)
+        buttonHide.pack(side=tk.RIGHT)
+        buttonSolo = tk.Radiobutton(item, variable=soloVar, value=self.id, command=soloCmd, text='S', indicatoron=False)
+        buttonSolo.pack(side=tk.RIGHT)

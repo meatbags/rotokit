@@ -1,4 +1,7 @@
 Config = {
+    'Global': {
+        'Font': ('Arial', 9)
+    },
     'Root': {
         'InitialDimensions': '1060x640'
     },
