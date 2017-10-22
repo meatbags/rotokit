@@ -1,4 +1,4 @@
-from src.interface.config import *
+from src.config import Config
 import tkinter as tk
 
 class Canvas(tk.Canvas):

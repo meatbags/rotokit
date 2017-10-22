@@ -1,8 +1,8 @@
 import tkinter as tk
-from src.interface.config import *
-from src.interface.workspace.canvas import *
-from src.interface.workspace.frame import *
-from src.interface.workspace.camera import *
+from src.config import Config
+from src.gui.layout.canvas.canvas import Canvas
+from src.gui.layout.canvas.frame import Frame
+from src.gui.layout.canvas.camera import Camera
 
 class Workspace(tk.Frame):
     def __init__(self, root):

@@ -1,4 +1,4 @@
-from src.interface.workspace.layer import *
+from src.gui.layout.canvas.layer import Layer
 
 class Frame:
     def __init__(self, id='FRAME'):

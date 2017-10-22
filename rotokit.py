@@ -1,3 +1,3 @@
-from src.interface.gui import *
+from src import App
 
-gui = GUI()
+app = App()

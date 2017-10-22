@@ -1,5 +1,5 @@
-from src.interface.maths.vector import *
-import maths
+from src.maths.vector import Vector
+import math
 
 class Transform:
     def __init__(self):
@@ -7,6 +7,7 @@ class Transform:
         self.position = Vector(0, 0)
         self.rotation = 0
         self.scale = Vector(1, 1)
+        self.opacity = 1
 
     def rotate(points):
         for p in points:

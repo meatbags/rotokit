@@ -1,5 +1,5 @@
 import tkinter as tk
-from src.interface.config import *
+from src.config import Config
 
 class ToolBar(tk.Frame):
     def __init__(self, root):

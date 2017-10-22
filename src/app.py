@@ -1,17 +1,16 @@
 import tkinter as tk
-from src.interface.menu.menu import *
-from src.interface.layout.layout import *
-from src.interface.events.events import *
-from src.interface.config import *
+from src.gui.layout import MenuBar, Master
+from src.gui.event import Events
+from src.config import Config
 
-class GUI(tk.Tk):
+class App(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title('Rotokit')
 
         # create menus & tools
         self.menu = MenuBar(self)
-        self.layout = Layout(self)
+        self.layout = Master(self)
 
         # events
         self.events = Events(self)

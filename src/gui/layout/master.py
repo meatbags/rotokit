@@ -1,12 +1,11 @@
 import tkinter as tk
-from src.interface.sidebar.toolbar import *
-from src.interface.layout.pane import *
-from src.interface.workspace.workspace import *
-from src.interface.workspace.timeline import *
-from src.interface.events.events import *
-from src.interface.layers.layerrow import *
+from src.gui.layout.toolbar import ToolBar
+from src.gui.layout.pane import Pane
+from src.gui.layout.canvas import Workspace
+from src.gui.layout.timeline import Timeline
+from src.gui.event import Events
 
-class Layout(tk.PanedWindow):
+class Master(tk.PanedWindow):
     def __init__(self, root):
         # master pane
         super().__init__(root)
@@ -22,10 +21,6 @@ class Layout(tk.PanedWindow):
         self.timeline = Timeline(self.main)
         self.workspace = Workspace(self.viewer)
 
-        # layers
-        self.layersPane = Pane(self, orient=tk.VERTICAL)
-        self.layerButtons = [LayerRow(self.layersPane) for layer in self.workspace.frameLeft.layers]
-        
         # events
         self.events = Events(self.workspace.canvasLeft, self.workspace.canvasRight)
         self.events.bindMouseDown(self.onMouseDown)

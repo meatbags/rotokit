@@ -1,5 +1,5 @@
 from tkinter import *
-from src.interface.config import *
+from src.config import Config
 
 class MenuBar:
     def __init__(self, root):

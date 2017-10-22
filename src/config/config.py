@@ -2,6 +2,14 @@ Config = {
     'Root': {
         'InitialDimensions': '1060x640'
     },
+    'Canvas': {
+        'DefaultSize': (470, 270),
+        'BackgroundColour': '#ffffff',
+        'Padding': 20
+    },
+    'Workspace': {
+        'DefaultSize': (960, 540),
+    },
     'Toolbar': {
         'ButtonWidth': 10,
         'Tools': {
@@ -33,12 +41,5 @@ Config = {
         'Layer': {
             'New': 'MENU_LAYER_NEW',
         }
-    },
-    'Canvas': {
-        'DefaultSize': (470, 270),
-        'BackgroundColour': '#ffffff'
-    },
-    'Workspace': {
-        'DefaultSize': (960, 540),
     },
 };
