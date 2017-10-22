@@ -23,10 +23,15 @@ Config = {
         'File': {
             'New': 'MENU_FILE_NEW',
             'Open': 'MENU_FILE_OPEN',
+            'Save': 'MENU_FILE_SAVE',
+            'Save As': 'MENU_FILE_SAVE_AS',
             'Close': 'MENU_FILE_CLOSE'
         },
         'Edit': {
             'Preferences': 'MENU_EDIT_PREFERENCES'
+        },
+        'Layer': {
+            'New': 'MENU_LAYER_NEW',
         }
     },
     'Canvas': {

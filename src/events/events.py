@@ -6,31 +6,38 @@ class Mouse:
         self.over = False
 
 class Events:
-    def __init__(self, root):
-        self.root = root
+    def __init__(self, *roots):
+        self.roots = [root for root in roots]
         self.keys = {}
         self.mouse = Mouse()
 
     def bindMouseDown(self, event):
-        self.root.bind('<Button-1>', lambda e: (self.onMouseDown(), event(e)))
+        for root in self.roots:
+            root.bind('<Button-1>', lambda e: (self.onMouseDown(), event(e)))
 
     def bindMouseRelease(self, event):
-        self.root.bind('<ButtonRelease-1>', lambda e: (self.onMouseRelease(), event(e)))
+        for root in self.roots:
+            root.bind('<ButtonRelease-1>', lambda e: (self.onMouseRelease(), event(e)))
 
     def bindMouseMove(self, event):
-        self.root.bind('<B1-Motion>', lambda e: (self.onMouseMove(e), event(e)))
+        for root in self.roots:
+            root.bind('<B1-Motion>', lambda e: (self.onMouseMove(e), event(e)))
 
     def bindMouseEnter(self, event):
-        self.root.bind('<Enter>', lambda e: (self.onMouseEnter(), event(e)))
+        for root in self.roots:
+            root.bind('<Enter>', lambda e: (self.onMouseEnter(), event(e)))
 
     def bindMouseLeave(self, event):
-        self.root.bind('<Leave>', lambda e: (self.onMouseLeave(), event(e)))
+        for root in self.roots:
+            root.bind('<Leave>', lambda e: (self.onMouseLeave(), event(e)))
 
     def bindKeyDown(self, event):
-        self.root.bind('<Key>', lambda e: (self.onKeyDown(e), event(e)))
+        for root in self.roots:
+            root.bind('<Key>', lambda e: (self.onKeyDown(e), event(e)))
 
     def bindKeyRelease(self, event):
-        self.root.bind('<KeyRelease>', lambda e: (self.onKeyRelease(e), event(e)))
+        for root in self.roots:
+            root.bind('<KeyRelease>', lambda e: (self.onKeyRelease(e), event(e)))
 
     def onMouseDown(self):
         self.mouse.down = True

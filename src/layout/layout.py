@@ -3,6 +3,8 @@ from src.interface.sidebar.toolbar import *
 from src.interface.layout.pane import *
 from src.interface.workspace.workspace import *
 from src.interface.workspace.timeline import *
+from src.interface.events.events import *
+from src.interface.layers.layerrow import *
 
 class Layout(tk.PanedWindow):
     def __init__(self, root):
@@ -20,13 +22,16 @@ class Layout(tk.PanedWindow):
         self.timeline = Timeline(self.main)
         self.workspace = Workspace(self.viewer)
 
+        # layers
+        self.layersPane = Pane(self, orient=tk.VERTICAL)
+        self.layerButtons = [LayerRow(self.layersPane) for layer in self.workspace.frameLeft.layers]
+        
         # events
-        self.bind('<Button-1>', self.onClick)
-        #frame.bind("<Key>", key)
-        #frame.bind("<Button-1>", callback)
+        self.events = Events(self.workspace.canvasLeft, self.workspace.canvasRight)
+        self.events.bindMouseDown(self.onMouseDown)
 
         # pack
         self.pack(fill=tk.BOTH, expand=1)
 
-    def onClick(self, event):
+    def onMouseDown(self, event):
         print(event)

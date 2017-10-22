@@ -5,12 +5,10 @@ class Canvas(tk.Canvas):
     def __init__(self, root, size=Config['Canvas']['DefaultSize']):
         super().__init__(root)
 
-        self.config(width=size[0], height=size[1], bg=Config['Canvas']['BackgroundColour'])
-        self.pack(side=tk.LEFT)
+        self.conf = Config['Canvas']
+        self.config(width=size[0], height=size[1], bg=self.conf['BackgroundColour'])
+        self.pack(side=tk.LEFT, padx=self.conf['Padding'], pady=self.conf['Padding'])
 
     def draw(self, frame, camera):
-        self.delete('all')
-
         for layer in frame.layers:
-            if layer.requiresDraw:
-                layer.draw(self)
+            layer.draw(self)

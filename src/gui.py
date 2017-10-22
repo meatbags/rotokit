@@ -8,7 +8,6 @@ class GUI(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title('Rotokit')
-        self.geometry(Config['Root']['InitialDimensions'])
 
         # create menus & tools
         self.menu = MenuBar(self)
