@@ -4,10 +4,10 @@ import random
 import tkinter as tk
 
 class Layer:
-    def __init__(self, frame, id, size=Config['Canvas']['DefaultSize']):
+    def __init__(self, frame, id, name):
         self.parent = frame.id
         self.id = id
-        self.name = 'Layer ' + id
+        self.name = name
         self.requiresDraw = True
         self.hidden = tk.IntVar()
 
@@ -17,8 +17,8 @@ class Layer:
         # test
         self.colour = '#000000'
         self.lineWidth = 2
-        self.start = ((random.random() * 3 - 1) * size[0], random.random() * size[1])
-        self.end = ((random.random() * 3 - 1) * size[0], random.random() * size[1])
+        self.start = (random.random() * 100, random.random() * 100)
+        self.end = (random.random() * 100, random.random() * 100)
 
     def draw(self, canvas):
         if self.requiresDraw:
@@ -27,11 +27,11 @@ class Layer:
 
     def addButton(self, root):
         self.button = tk.Frame(root, borderwidth=4, relief=tk.SUNKEN)
-        self.button.pack(side=tk.BOTTOM)
-        self.buttonLabel = tk.Label(self.button, text=self.id)
+        self.button.pack(side=tk.TOP, fill=tk.X)
+        self.buttonLabel = tk.Label(self.button, text=self.name)
         self.buttonLabel.pack(side=tk.LEFT)
         self.buttonHide = tk.Checkbutton(self.button, variable=self.hidden, text='( )', indicatoron=False)
-        self.buttonHide.pack(side=tk.LEFT)
+        self.buttonHide.pack(side=tk.RIGHT)
 
     def addObject(self, object):
         pass

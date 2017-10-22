@@ -1,5 +1,6 @@
 import tkinter as tk
-from src.gui.layout import MenuBar, Master
+from src.gui.menu import MenuBar
+from src.gui.layout import Master
 from src.gui.event import Events
 from src.config import Config
 

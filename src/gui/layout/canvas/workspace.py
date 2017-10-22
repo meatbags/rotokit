@@ -1,7 +1,6 @@
 import tkinter as tk
 from src.config import Config
 from src.gui.layout.canvas.canvas import Canvas
-from src.gui.layout.canvas.frame import Frame
 from src.gui.layout.canvas.camera import Camera
 
 class Workspace(tk.Frame):
@@ -17,13 +16,12 @@ class Workspace(tk.Frame):
         self.camera = Camera()
         self.canvasLeft = Canvas(self)
         self.canvasRight = Canvas(self)
-        self.frameLeft = Frame()
-        self.frameRight = Frame()
 
         # run
         self.draw()
         root.add(self)
 
     def draw(self):
-        self.canvasLeft.draw(self.frameLeft, self.camera)
-        self.canvasRight.draw(self.frameRight, self.camera)
+        pass
+        #self.canvasLeft.draw(self.frameLeft, self.camera)
+        #self.canvasRight.draw(self.frameRight, self.camera)

@@ -4,7 +4,7 @@ from src.config import Config
 class ToolBar(tk.Frame):
     def __init__(self, root):
         super().__init__(root)
-        self.pack(side=tk.TOP, fill=tk.Y)
+        self.pack(side=tk.TOP)
         self.conf = Config['Toolbar']
 
         # tool
@@ -29,6 +29,7 @@ class ToolBar(tk.Frame):
             text=key,
             variable=self.tool,
             value=Config['Toolbar']['Tools'][key],
+            bd=0,
             indicatoron=False).grid(row=row, column=column)
 
     def onClick(self):

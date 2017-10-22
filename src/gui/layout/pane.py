@@ -2,7 +2,7 @@ import tkinter as tk
 
 class Pane(tk.PanedWindow):
     def __init__(self, root, orient=tk.HORIZONTAL, label=False):
-        super().__init__(root, orient=orient, sashwidth=6, sashrelief=tk.SUNKEN)
+        super().__init__(root, orient=orient, sashpad=10, sashwidth=2, sashrelief=tk.SUNKEN)
 
         # add placeholder label
         if label:
