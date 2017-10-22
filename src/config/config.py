@@ -5,7 +5,10 @@ Config = {
     'Canvas': {
         'DefaultSize': (470, 270),
         'BackgroundColour': '#ffffff',
-        'Padding': 20
+        'Padding': {
+            'x': 16,
+            'y': 16
+        }
     },
     'Workspace': {
         'DefaultSize': (960, 540),

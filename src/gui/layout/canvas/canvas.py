@@ -7,7 +7,7 @@ class Canvas(tk.Canvas):
 
         self.conf = Config['Canvas']
         self.config(width=size[0], height=size[1], bg=self.conf['BackgroundColour'])
-        self.pack(side=tk.LEFT, padx=self.conf['Padding'], pady=self.conf['Padding'])
+        self.pack(side=tk.LEFT, padx=self.conf['Padding']['x'], pady=self.conf['Padding']['y'])
 
     def draw(self, frame, camera):
         for layer in frame.layers:
