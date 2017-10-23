@@ -1,11 +1,8 @@
 import tkinter as tk
-from src.gui.event import Events
-from src.gui.layout.pane import Pane
-from src.gui.layout.toolbar import ToolBar
-from src.gui.layout.canvas import Workspace
-from src.gui.layout.layers import LayerFrame
-from src.gui.layout.timeline import Timeline
-from src.frame import Frame
+from src.config import *
+from src.core import *
+from src.frame import *
+from src.gui import *
 
 class Master(tk.PanedWindow):
     def __init__(self, root):
@@ -23,8 +20,13 @@ class Master(tk.PanedWindow):
 
         # side bar
         self.sidebar = Pane(self, orient=tk.VERTICAL)
-        self.toolbar = ToolBar(self.sidebar)
-        self.colourPicker = Pane(self.sidebar, label='Colour')
+        self.sidebarInner = tk.Frame(self.sidebar)
+        self.sidebarInner.pack(side=tk.LEFT)
+        self.sidebar.add(self.sidebarInner)
+
+        self.createTools()
+
+
         self.layerFrame = LayerFrame(self.sidebar)
 
         # frames
@@ -39,3 +41,12 @@ class Master(tk.PanedWindow):
         # events
         #self.events = Events(self.workspace.canvasLeft, self.workspace.canvasRight)
         #self.events.bindMouseDown(self.onMouseDown)
+
+    def createTools(self):
+        self.drawTools = ToolBox(
+            self.sidebarInner,
+            tools=[tool for tool in Config['Tools']['Draw']],
+            radio=1,
+            columns=2
+        )
+        self.colourPicker = Pane(self.sidebar, label='Colour')
