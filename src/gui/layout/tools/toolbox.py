@@ -9,6 +9,9 @@ class ToolBox(tk.Frame):
         self.command = command
         self.id = str(id)
 
+        # vars
+        self.radioVar = tk.StringVar()
+
         # populate
         self.createButtons(tools, radio, columns)
 
@@ -19,7 +22,6 @@ class ToolBox(tk.Frame):
         # get buttons
         n = 0
         if radio:
-            self.radioVar = tk.StringVar()
             for tool in self.tools:
                 column = int(n % columns)
                 row = int((n - column) / 2)
@@ -31,6 +33,10 @@ class ToolBox(tk.Frame):
                 row = int((n - column) / 2)
                 self.tools[tool].getCheckButton(self, row=row, column=column)
                 n += 1
+
+    def setTool(self, toolId):
+        # switch to tool
+        self.radioVar.set(toolId)
 
     def onToolChange(self, tool):
         # pass event up

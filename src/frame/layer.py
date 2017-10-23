@@ -24,7 +24,7 @@ class Layer:
             self.addPath()
 
     def draw(self, canvas):
-        if self.hidden.get() == 1:
+        if self.hidden.get():
             self.hide(canvas)
         else:
             for obj in self.objects:
@@ -41,8 +41,11 @@ class Layer:
         self.objects.append(Path(self, id))
 
     def addListItem(self, root, selectVar=None, selectCmd=None, soloVar=None, soloCmd=None, hideCmd=None):
+        # container
         item = tk.Frame(root, relief=tk.SUNKEN)
         item.pack(side=tk.TOP, fill=tk.X, expand=1)
+
+        # buttons
         buttonSelect = tk.Radiobutton(item, variable=selectVar, command=lambda:selectCmd(self), value=self.id, text=self.name, font=Config['Global']['Font'], indicatoron=False)
         buttonSelect.pack(side=tk.LEFT, fill=tk.BOTH, expand=1)
         buttonHide = tk.Checkbutton(item, variable=self.hidden, command=lambda:hideCmd(self), text='H', indicatoron=False)

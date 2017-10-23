@@ -8,10 +8,10 @@ class Path:
         self.id = id
 
         bez = Bezier(
-            Vector(random.random() * 100, random.random() * 100),
-            Vector(random.random() * 100, random.random() * 100),
-            Vector(random.random() * 100, random.random() * 100),
-            Vector(random.random() * 100, random.random() * 100)
+            Vector(random.random() * 600, random.random() * 400),
+            Vector(random.random() * 600, random.random() * 400),
+            Vector(random.random() * 600, random.random() * 400),
+            Vector(random.random() * 600, random.random() * 400)
         )
 
         self.bezierCurves = [bez]

@@ -13,11 +13,10 @@ class App(tk.Tk):
         self.menu = MenuBar(self)
         self.layout = Master(self)
 
-        # events
+        # keyboard events
         self.events = Events(self)
+        self.events.bindKeyDown(lambda event: self.layout.handleKeyDown(event))
+        self.events.bindKeyRelease(lambda event: self.layout.handleKeyRelease(event))
 
         # run
         self.mainloop()
-
-    def onEvent(self, event):
-        print(event)
