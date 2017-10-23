@@ -1,8 +1,7 @@
 import tkinter as tk
-from src.gui.menu import MenuBar
 from src.master import Master
-from src.gui.event import Events
-from src.config import Config
+from src.gui import *
+from src.config import *
 
 class App(tk.Tk):
     def __init__(self):

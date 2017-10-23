@@ -10,7 +10,6 @@ class Workspace(tk.Frame):
         self.size = self.conf['DefaultSize']
         self.config(width=self.size[0], height=self.size[1])
         self.pack(fill=tk.BOTH)
-        root.add(self)
 
         # add canvases
         self.camera = Camera()

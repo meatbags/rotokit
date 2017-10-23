@@ -11,13 +11,14 @@ class Master(tk.PanedWindow):
         self.config(orient=tk.HORIZONTAL, sashpad=5)
         self.pack()
 
-        # layout
+        # set up
         self.createLayout()
-
-        # tools
         self.createTools()
+        self.createCanvas()
 
-        self.layerFrame = LayerFrame(self.sidebar)
+
+
+
 
         # frames
         self.frameA = Frame('Frame_A', self.workspace.canvasLeft)
@@ -33,17 +34,13 @@ class Master(tk.PanedWindow):
         #self.events.bindMouseDown(self.onMouseDown)
 
     def createLayout(self):
-        # main window
+        # master window
         self.main = Pane(self, orient=tk.VERTICAL)
-
-        # tool attributes
-        #self.attributes = Pane(self.main, label='Attributes')
 
         # upper
         self.mainUpper = Pane(self.main)
-        #self.mainUpperInner = tk.Frame(self.mainUpper)
-        #self.mainUpper.add(self.mainUpperInner)
-        self.workspace = Workspace(self.mainUpper)
+        self.mainUpperInner = tk.Frame(self.mainUpper)
+        self.mainUpper.add(self.mainUpperInner)
 
         # lower
         self.mainLower = Pane(self.main)
@@ -56,20 +53,27 @@ class Master(tk.PanedWindow):
         self.sidebar.add(self.sidebarInner)
 
     def createTools(self):
+        # methods
+        self.onToolBoxChange = lambda toolbox, tool: print(toolbox.id, tool.id)
+        self.onLayerListChange = lambda layer: print(layer.id)
+
+        # toolbars
         self.toolBarSide = tk.Frame(self.sidebarInner)
         self.toolBarSide.pack(side=tk.TOP, fill=tk.X, expand=1)
         self.toolBarLower = tk.Frame(self.mainLowerInner)
         self.toolBarLower.pack(side=tk.TOP, fill=tk.X, expand=1)
 
-        self.toolsDraw = ToolBox(self.toolBarSide, 'ToolBox_Draw', self.onToolBoxChange, tools=[tool for tool in Config['Tools']['Draw']], radio=True, columns=2)
-        self.toolsTransfer = ToolBox(self.toolBarLower, 'ToolBox_Transfer', self.onToolBoxChange, tools=[tool for tool in Config['Tools']['Transfer']])
-        self.toolsMatch = ToolBox(self.toolBarLower, 'ToolBox_Match', self.onToolBoxChange, tools=[tool for tool in Config['Tools']['Match']])
+        # tools
+        self.toolsDraw = ToolBox(self.toolBarSide, 'Draw', self.onToolBoxChange, tools=Config['Tools']['Draw'], radio=True, columns=2)
+        self.toolsTransfer = ToolBox(self.toolBarLower, 'Transfer', self.onToolBoxChange, tools=Config['Tools']['Transfer'])
+        self.toolsMatch = ToolBox(self.toolBarLower, 'Match', self.onToolBoxChange, tools=Config['Tools']['Match'])
 
+        # TODO: ... ?
         self.colourPicker = Pane(self.sidebar, label='Colour')
+        self.layerFrame = LayerFrame(self.sidebar)
 
-    def onToolBoxChange(self, toolbox, tool):
-        # events passed up to master
-        pass
+    def createCanvas(self):
+        self.workspace = Workspace(self.mainUpperInner)
 
     def onLayerChange(self):
         pass
