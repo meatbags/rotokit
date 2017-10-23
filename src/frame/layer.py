@@ -36,12 +36,6 @@ class Layer:
         for obj in self.objects:
             obj.requiresDraw = True
 
-    def solo(self, id, canvas):
-        if id == self.id:
-            self.draw(canvas)
-        else:
-            self.hide(canvas)
-
     def addPath(self):
         id = self.id + '_path_' + str(len(self.objects))
         self.objects.append(Path(self, id))
@@ -49,11 +43,11 @@ class Layer:
     def addListItem(self, root, selectVar=None, selectCmd=None, soloVar=None, soloCmd=None, hideCmd=None):
         item = tk.Frame(root, relief=tk.SUNKEN)
         item.pack(side=tk.TOP, fill=tk.X, expand=1)
-        buttonSelect = tk.Radiobutton(item, variable=selectVar, command=selectCmd, value=self.id, text=self.name, font=Config['Global']['Font'], indicatoron=False)
+        buttonSelect = tk.Radiobutton(item, variable=selectVar, command=lambda:selectCmd(self), value=self.id, text=self.name, font=Config['Global']['Font'], indicatoron=False)
         buttonSelect.pack(side=tk.LEFT, fill=tk.BOTH, expand=1)
-        buttonHide = tk.Checkbutton(item, variable=self.hidden, command=hideCmd, text='H', indicatoron=False)
+        buttonHide = tk.Checkbutton(item, variable=self.hidden, command=lambda:hideCmd(self), text='H', indicatoron=False)
         buttonHide.pack(side=tk.RIGHT)
-        buttonSolo = tk.Radiobutton(item, variable=soloVar, value=self.id, command=soloCmd, text='S', indicatoron=False)
+        buttonSolo = tk.Radiobutton(item, variable=soloVar, command=lambda:soloCmd(self), value=self.id, text='S', indicatoron=False)
         buttonSolo.pack(side=tk.RIGHT)
         buttonLock = tk.Checkbutton(item, variable=self.locked, text='L', indicatoron=False)
         buttonLock.pack(side=tk.RIGHT)

@@ -6,7 +6,7 @@ Config = {
         'InitialDimensions': '1060x640'
     },
     'Canvas': {
-        'DefaultSize': (640, 480),
+        'DefaultSize': (600, 400),
         'BackgroundColour': '#ffffff',
         'Padding': {
             'x': 16,

@@ -2,13 +2,13 @@ from src.config import Config
 import tkinter as tk
 
 class Canvas(tk.Canvas):
-    def __init__(self, root, size=Config['Canvas']['DefaultSize']):
-        super().__init__(root)
+    def __init__(self, root, id, **kw):
+        super().__init__(root, kw)
+        self.config(width=Config['Canvas']['DefaultSize'][0], height=Config['Canvas']['DefaultSize'][1], bg=Config['Canvas']['BackgroundColour'])
+        self.pack(side=tk.LEFT, padx=Config['Canvas']['Padding']['x'], pady=Config['Canvas']['Padding']['y'])
 
-        self.conf = Config['Canvas']
-        self.config(width=size[0], height=size[1], bg=self.conf['BackgroundColour'])
-        self.pack(side=tk.LEFT, padx=self.conf['Padding']['x'], pady=self.conf['Padding']['y'])
+    def clear(self):
+        canvas.delete('all')
 
-    def draw(self, frame, camera):
-        for layer in frame.layers:
-            layer.draw(self)
+    def draw(self, frame):
+        frame.draw(self)

@@ -16,7 +16,7 @@ class Tool:
             command=self.onChange,
             width=10,
             indicatoron=False
-        ).grid(row=row, column=column)
+        ).grid(row=row, column=column, sticky=tk.NW)
 
     def getCheckButton(self, root, row=0, column=0):
         self.checkButton = tk.Checkbutton(
@@ -26,7 +26,7 @@ class Tool:
             text=self.name,
             width=10,
             indicatoron=False
-        ).grid(row=row, column=column)
+        ).grid(row=row, column=column, sticky=tk.NW)
 
     def onChange(self):
         # pass event up

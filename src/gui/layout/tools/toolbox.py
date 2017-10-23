@@ -5,7 +5,7 @@ from src.config import Config
 class ToolBox(tk.Frame):
     def __init__(self, root, id, command, tools={}, radio=False, columns=10, **kw):
         super().__init__(root, kw)
-        self.pack(side=tk.LEFT, padx=8)
+        self.pack(side=tk.LEFT)
         self.command = command
         self.id = str(id)
 

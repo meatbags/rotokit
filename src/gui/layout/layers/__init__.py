@@ -1,1 +1,1 @@
-from src.gui.layout.layers.layer_frame import LayerFrame
+from src.gui.layout.layers.layer_list import LayerList
