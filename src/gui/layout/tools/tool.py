@@ -1,28 +1,33 @@
 import tkinter as tk
 
 class Tool:
-    def __init__(self, id, name):
+    def __init__(self, id, name, command):
         self.id = str(id)
         self.name = str(name)
         self.checkVar = tk.IntVar()
+        self.command = command;
 
-    def getRadioButton(self, root, var=None, cmd=None, row=0, column=0):
+    def getRadioButton(self, root, var=None, row=0, column=0):
         self.radioButton = tk.Radiobutton(
             root,
-            command=cmd,
             variable=var,
             value=self.id,
             text=self.name,
+            command=self.onChange,
             width=10,
             indicatoron=False
         ).grid(row=row, column=column)
 
-    def getCheckButton(self, root, cmd=None, row=0, column=0):
+    def getCheckButton(self, root, row=0, column=0):
         self.checkButton = tk.Checkbutton(
             root,
-            command=cmd,
+            command=self.onChange,
             variable=self.checkVar,
             text=self.name,
             width=10,
             indicatoron=False
         ).grid(row=row, column=column)
+
+    def onChange(self):
+        # pass event up
+        self.command(self)

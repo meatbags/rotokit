@@ -11,21 +11,11 @@ class Master(tk.PanedWindow):
         self.config(orient=tk.HORIZONTAL, sashpad=5)
         self.pack()
 
-        # main window
-        self.main = Pane(self, orient=tk.VERTICAL)
-        self.attributes = Pane(self.main, label='Attributes')
-        self.viewer = Pane(self.main)
-        self.timeline = Timeline(self.main)
-        self.workspace = Workspace(self.viewer)
+        # layout
+        self.createLayout()
 
-        # side bar
-        self.sidebar = Pane(self, orient=tk.VERTICAL)
-        self.sidebarInner = tk.Frame(self.sidebar)
-        self.sidebarInner.pack(side=tk.LEFT)
-        self.sidebar.add(self.sidebarInner)
-
+        # tools
         self.createTools()
-
 
         self.layerFrame = LayerFrame(self.sidebar)
 
@@ -42,11 +32,44 @@ class Master(tk.PanedWindow):
         #self.events = Events(self.workspace.canvasLeft, self.workspace.canvasRight)
         #self.events.bindMouseDown(self.onMouseDown)
 
+    def createLayout(self):
+        # main window
+        self.main = Pane(self, orient=tk.VERTICAL)
+
+        # tool attributes
+        #self.attributes = Pane(self.main, label='Attributes')
+
+        # upper
+        self.mainUpper = Pane(self.main)
+        #self.mainUpperInner = tk.Frame(self.mainUpper)
+        #self.mainUpper.add(self.mainUpperInner)
+        self.workspace = Workspace(self.mainUpper)
+
+        # lower
+        self.mainLower = Pane(self.main)
+        self.mainLowerInner = tk.Frame(self.mainLower)
+        self.mainLower.add(self.mainLowerInner)
+
+        # sidebar
+        self.sidebar = Pane(self, orient=tk.VERTICAL)
+        self.sidebarInner = tk.Frame(self.sidebar)
+        self.sidebar.add(self.sidebarInner)
+
     def createTools(self):
-        self.drawTools = ToolBox(
-            self.sidebarInner,
-            tools=[tool for tool in Config['Tools']['Draw']],
-            radio=1,
-            columns=2
-        )
+        self.toolBarSide = tk.Frame(self.sidebarInner)
+        self.toolBarSide.pack(side=tk.TOP, fill=tk.X, expand=1)
+        self.toolBarLower = tk.Frame(self.mainLowerInner)
+        self.toolBarLower.pack(side=tk.TOP, fill=tk.X, expand=1)
+
+        self.toolsDraw = ToolBox(self.toolBarSide, 'ToolBox_Draw', self.onToolBoxChange, tools=[tool for tool in Config['Tools']['Draw']], radio=True, columns=2)
+        self.toolsTransfer = ToolBox(self.toolBarLower, 'ToolBox_Transfer', self.onToolBoxChange, tools=[tool for tool in Config['Tools']['Transfer']])
+        self.toolsMatch = ToolBox(self.toolBarLower, 'ToolBox_Match', self.onToolBoxChange, tools=[tool for tool in Config['Tools']['Match']])
+
         self.colourPicker = Pane(self.sidebar, label='Colour')
+
+    def onToolBoxChange(self, toolbox, tool):
+        # events passed up to master
+        pass
+
+    def onLayerChange(self):
+        pass
