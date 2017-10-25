@@ -35,6 +35,9 @@ class Layer:
         # hide objects
         canvas.delete(self.id)
 
+        self.resetDraw()
+
+    def resetDraw(self):
         for obj in self.objects:
             obj.requiresDraw = True
 

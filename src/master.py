@@ -46,10 +46,10 @@ class Master(tk.PanedWindow):
         self.toolBarLower.pack(side=tk.TOP, fill=tk.X, expand=1)
 
         # tools
-        self.onToolBoxChange = lambda toolbox, tool: self.setTool(tool.id)
-        self.toolsDraw = ToolBox(self.toolBarSide, 'Draw', self.onToolBoxChange, tools=Config['Tools']['Draw'], radio=True, columns=2)
-        self.toolsTransfer = ToolBox(self.toolBarLower, 'Transfer', self.onToolBoxChange, tools=Config['Tools']['Transfer'])
-        self.toolsMatch = ToolBox(self.toolBarLower, 'Match', self.onToolBoxChange, tools=Config['Tools']['Match'])
+        self.toolsDraw = ToolBox(self.toolBarSide, 'Draw', self.handleToolBoxChange, tools=Config['Tools']['Draw'], radio=True, columns=2)
+        self.toolsTransfer = ToolBox(self.toolBarLower, 'Transfer', self.handleToolBoxChange, tools=Config['Tools']['Transfer'])
+        self.toolsMatch = ToolBox(self.toolBarLower, 'Match', self.handleToolBoxChange, tools=Config['Tools']['Match'])
+        self.toolPath = ToolPath()
 
         # tool attributes
         self.attributeText = tk.StringVar()
@@ -61,27 +61,26 @@ class Master(tk.PanedWindow):
         self.colourPicker.pack(side=tk.TOP)
 
         # layers
-        self.onLayerListChange = lambda frame, layer: self.canvas.drawFrames(self.frames)
-        self.layerList = LayerList(self.sidebarInner, self.onLayerListChange)
+        self.layerList = LayerList(self.sidebarInner, self.handleLayerListChange)
 
         # timeline
-        self.onTimelineChange = lambda frame: print(frame)
-        self.timeline = Timeline(self.mainLowerInner, self.onTimelineChange)
+        self.timeline = Timeline(self.mainLowerInner, self.handleTimelineChange)
 
     def createFrame(self):
         # frames
-        self.frames = [Frame(name) for name in ['A', 'B', 'C', 'D', 'E']]
-        self.activeFrames = [self.frames[0], self.frames[1]]
+        self.frameHandler = FrameHandler()
+        self.frameHandler.addFrame('A', 'B', 'C', 'D', 'E')
 
         # add frames to timeline
-        self.timeline.addFrames(self.frames)
+        self.timeline.addFrames(self.frameHandler.frames)
+        self.timeline.setActiveFrames(self.frameHandler.activeFrames)
 
         # add layer lists
-        self.layerList.addFrames(self.activeFrames)
+        self.layerList.setActiveFrames(self.frameHandler.activeFrames)
 
         # canvas
-        self.canvas = CanvasWorkspace(self.mainUpperInner, self.handleCanvasMouseDown, self.handleCanvasMouseMove, self.handleCanvasMouseRelease)
-        self.canvas.drawFrames(self.activeFrames)
+        self.canvasHandler = CanvasHandler(self.mainUpperInner, self.handleCanvasMouseDown, self.handleCanvasMouseMove, self.handleCanvasMouseRelease)
+        self.canvasHandler.drawFrames(self.frameHandler.activeFrames)
 
     def isSpecialKeyDown(self):
         specialKeysDown = sum([1 for key in self.specialKeys if self.specialKeys[key] == True])
@@ -137,14 +136,37 @@ class Master(tk.PanedWindow):
         }
 
     def handleCanvasMouseDown(self, canvas, mouse):
-        print('DOWN', canvas.id, mouse.x, mouse.y)
+        self.canvasHandler.setActiveCanvas(canvas.id)
+        self.toolPath.trace(mouse.x, mouse.y)
+        self.canvasHandler.drawToolPath(self.toolPath)
 
     def handleCanvasMouseMove(self, canvas, mouse):
-        pass
-        #print(canvas, mouse)
+        self.toolPath.trace(mouse.x, mouse.y)
+        self.canvasHandler.drawToolPath(self.toolPath)
 
     def handleCanvasMouseRelease(self, canvas, mouse):
         print('UP', canvas.id, mouse.x, mouse.y)
+        self.toolPath.clear()
+        self.canvasHandler.drawToolPath(self.toolPath)
+
+    def handleToolBoxChange(self, toolbox, tool):
+        self.setTool(tool.id)
+
+    def handleLayerListChange(self, frame, layer):
+        self.canvasHandler.drawFrames(self.frameHandler.activeFrames)
+
+    def handleTimelineChange(self, timelineFrame):
+        # set active frames and redraw
+        self.frameHandler.toggleFrame(timelineFrame, len(self.canvasHandler.canvasStack))
+        self.timeline.setActiveFrames(self.frameHandler.activeFrames)
+
+        # show layers list
+        self.layerList.setActiveFrames(self.frameHandler.activeFrames)
+
+        # redraw
+        self.frameHandler.resetDraw()
+        self.canvasHandler.clearAll()
+        self.canvasHandler.drawFrames(self.frameHandler.activeFrames)
 
     def handleKeyDown(self, event):
         print(event.keysym)

@@ -24,7 +24,7 @@ class Timeline(tk.Frame):
     def addFrames(self, frames):
         self.frames = [TimelineFrame(self.timeline, frame.id, self.onTimelineChange) for frame in frames]
 
-    def activateFrames(self, frames):
+    def setActiveFrames(self, frames):
         ids = [frame.id for frame in frames]
 
         for frame in self.frames:

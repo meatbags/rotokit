@@ -1,1 +1,1 @@
-from src.gui.layout.canvas.canvas_workspace import CanvasWorkspace
+from src.gui.layout.canvas.canvas_handler import CanvasHandler

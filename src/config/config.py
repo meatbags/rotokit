@@ -6,7 +6,7 @@ Config = {
         'InitialDimensions': '1060x640'
     },
     'Canvas': {
-        'DefaultSize': (200, 200),
+        'DefaultSize': (320, 240),
         'BackgroundColour': '#ffffff',
         'Padding': {
             'x': 16,
@@ -16,6 +16,7 @@ Config = {
     'Workspace': {
         'DefaultSize': (960, 540),
     },
+    'Tool': {},
     'Tools': {
         'Draw': {
             'Select': 'TOOL_DRAW_SELECT',

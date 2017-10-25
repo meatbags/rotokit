@@ -6,11 +6,12 @@ class Frame:
     def __init__(self, id):
         self.id = str(id)
 
-        # tk vars
+        # vars
         self.lastSelectedLayerVar = tk.StringVar()
         self.selectedLayerVar = tk.StringVar()
         self.lastSoloVar = tk.StringVar()
         self.soloVar = tk.StringVar()
+        self.active = False
 
         # layers
         self.layers = []
@@ -78,3 +79,13 @@ class Frame:
                 soloCmd=self.onSoloLayer,
                 hideCmd=self.onHideLayer
             )
+
+    def resetDraw(self):
+        for layer in self.layers:
+            layer.resetDraw()
+
+    def activate(self):
+        self.active = True
+
+    def disable(self):
+        self.active = False
