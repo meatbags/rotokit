@@ -6,7 +6,7 @@ Config = {
         'InitialDimensions': '1060x640'
     },
     'Canvas': {
-        'DefaultSize': (600, 400),
+        'DefaultSize': (200, 200),
         'BackgroundColour': '#ffffff',
         'Padding': {
             'x': 16,
@@ -40,17 +40,17 @@ Config = {
     },
     'Menu': {
         'File': {
-            'New': 'MENU_FILE_NEW',
-            'Open': 'MENU_FILE_OPEN',
-            'Save': 'MENU_FILE_SAVE',
-            'Save As': 'MENU_FILE_SAVE_AS',
-            'Close': 'MENU_FILE_CLOSE'
+            'New': {'ID': 'MENU_FILE_NEW', 'Shortcut': 'Ctrl+N'},
+            'Open': {'ID': 'MENU_FILE_OPEN', 'Shortcut': 'Ctrl+O'},
+            'Save': {'ID': 'MENU_FILE_SAVE', 'Shortcut': 'Ctrl+S'},
+            'Save As': {'ID': 'MENU_FILE_SAVEAS', 'Shortcut': 'Ctrl+Alt+S'},
+            'Close': {'ID': 'MENU_FILE_CLOSE', 'Shortcut': 'Ctrl+X'},
         },
-        'Edit': {
-            'Preferences': 'MENU_EDIT_PREFERENCES'
+        'Frame': {
+            'New': {'ID': 'MENU_FRAME_NEW', 'Shortcut': 'Ctrl+F'},
         },
         'About': {
-            'About': 'MENU_ABOUT_ABOUT'
+            'About': {'ID': 'MENU_ABOUT_ABOUT', 'Shortcut': ''},
         }
     },
 };

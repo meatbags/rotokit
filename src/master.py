@@ -121,3 +121,6 @@ class Master(tk.PanedWindow):
     def handleKeyRelease(self, event):
         if event.keysym in self.keyRelease:
             self.keyRelease[event.keysym](event)
+
+    def handleMenuItem(self, item):
+        print(item)
