@@ -1,1 +1,3 @@
 # rotokit
+
+Drawing is fun.
