@@ -1,9 +1,4 @@
-class Mouse:
-    def __init__(self):
-        self.x = 0
-        self.y = 0
-        self.down = False
-        self.over = False
+from src.gui.event.mouse import Mouse
 
 class Events:
     def __init__(self, *roots):
@@ -13,11 +8,11 @@ class Events:
 
     def bindMouseDown(self, event):
         for root in self.roots:
-            root.bind('<Button-1>', lambda e: (self.onMouseDown(), event(e)))
+            root.bind('<Button-1>', lambda e: (self.onMouseDown(e), event(e)))
 
     def bindMouseRelease(self, event):
         for root in self.roots:
-            root.bind('<ButtonRelease-1>', lambda e: (self.onMouseRelease(), event(e)))
+            root.bind('<ButtonRelease-1>', lambda e: (self.onMouseRelease(e), event(e)))
 
     def bindMouseMove(self, event):
         for root in self.roots:
@@ -39,11 +34,15 @@ class Events:
         for root in self.roots:
             root.bind('<KeyRelease>', lambda e: (self.onKeyRelease(e), event(e)))
 
-    def onMouseDown(self):
+    def onMouseDown(self, event):
         self.mouse.down = True
+        self.mouse.x = event.x
+        self.mouse.y = event.y
 
-    def onMouseRelease(self):
+    def onMouseRelease(self, event):
         self.mouse.down = False
+        self.mouse.x = event.x
+        self.mouse.y = event.y
 
     def onMouseMove(self, event):
         self.mouse.x = event.x

@@ -80,7 +80,7 @@ class Master(tk.PanedWindow):
         self.layerList.addFrames(self.activeFrames)
 
         # canvas
-        self.canvas = CanvasWorkspace(self.mainUpperInner)
+        self.canvas = CanvasWorkspace(self.mainUpperInner, self.handleCanvasMouseDown, self.handleCanvasMouseMove, self.handleCanvasMouseRelease)
         self.canvas.drawFrames(self.activeFrames)
 
     def isSpecialKeyDown(self):
@@ -135,6 +135,16 @@ class Master(tk.PanedWindow):
             'Ctrl': False,
             'Alt': False
         }
+
+    def handleCanvasMouseDown(self, canvas, mouse):
+        print('DOWN', canvas.id, mouse.x, mouse.y)
+
+    def handleCanvasMouseMove(self, canvas, mouse):
+        pass
+        #print(canvas, mouse)
+
+    def handleCanvasMouseRelease(self, canvas, mouse):
+        print('UP', canvas.id, mouse.x, mouse.y)
 
     def handleKeyDown(self, event):
         print(event.keysym)

@@ -24,6 +24,7 @@ class Layer:
             self.addPath()
 
     def draw(self, canvas):
+        # draw objects to canvas
         if self.hidden.get():
             self.hide(canvas)
         else:
@@ -31,10 +32,16 @@ class Layer:
                 obj.draw(canvas, self.id)
 
     def hide(self, canvas):
+        # hide objects
         canvas.delete(self.id)
 
         for obj in self.objects:
             obj.requiresDraw = True
+
+    def clear(self, canvas):
+        # delete objects
+        self.objects = []
+        self.hide(canvas)
 
     def addPath(self):
         id = self.id + '_path_' + str(len(self.objects))
