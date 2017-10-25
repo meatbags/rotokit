@@ -1,41 +1,37 @@
 import tkinter as tk
+from src.gui.layout.timeline.timeline_frame import TimelineFrame
 from src.config import Config
 
-class Timeline(tk.PanedWindow):
-    def __init__(self, root):
-        super().__init__(root, orient=tk.HORIZONTAL, sashwidth=6, sashrelief=tk.SUNKEN)
+class Timeline(tk.Frame):
+    def __init__(self, root, command, **kw):
+        super().__init__(root, borderwidth=4, relief=tk.SUNKEN, **kw)
+        self.pack(fill=tk.X, side=tk.TOP)
+        self.command = command
 
-        # toolbar
-        self.toolbar = tk.Frame(self)
-        self.toolbar.pack(fill=tk.X, expand=1)
-        self.toolbarInnerLeft = tk.Frame(self.toolbar)
-        self.toolbarInnerLeft.pack(side=tk.LEFT, fill=tk.X, expand=1)
-        self.toolbarInnerRight = tk.Frame(self.toolbar)
-        self.toolbarInnerRight.pack(side=tk.LEFT, fill=tk.X, expand=1)
+        # frames
+        self.toolbar = tk.Frame(self, borderwidth=4, relief=tk.SUNKEN)
+        self.toolbar.pack(side=tk.TOP, fill=tk.X)
+        self.timeline = tk.Frame(self, borderwidth=4, relief=tk.SUNKEN)
+        self.timeline.pack(side=tk.TOP, fill=tk.X)
 
-        # tool variables
-        self.tools = {
-            'Transfer': {
-                key: False for key in Config['Tools']['Transfer']
-            },
-            'Match': {
-                key: False for key in Config['Tools']['Match']
-            }
-        }
+        # tools
+        self.createTools()
 
-        # populate
-        for tool in Config['Tools']['Transfer']:
-            t = tk.Checkbutton(self.toolbarInnerLeft, variable=self.tools['Transfer'][tool], width=10, text=tool, indicatoron=0)
-            t.pack(side=tk.LEFT)
+    def createTools(self):
+        self.tempTool = tk.Checkbutton(self.toolbar, text='Swap Mode', indicatoron=0)
+        self.tempTool.pack(side=tk.LEFT)
 
-        for tool in Config['Tools']['Match']:
-            t = tk.Checkbutton(self.toolbarInnerRight, variable=self.tools['Match'][tool], width=10, text=tool, indicatoron=0)
-            t.pack(side=tk.LEFT)
+    def addFrames(self, frames):
+        self.frames = [TimelineFrame(self.timeline, frame.id, self.onTimelineChange) for frame in frames]
 
-        self.scale = tk.Scale(self, from_=0, to=100, orient=tk.HORIZONTAL)
-        self.scale.pack(fill=tk.X, expand=1)
+    def activateFrames(self, frames):
+        ids = [frame.id for frame in frames]
 
-        self.timeline = tk.Label(self, text='frames, bake view')
-        self.timeline.pack(fill=tk.X, expand=1)
+        for frame in self.frames:
+            if frame.id in ids:
+                frame.active.set(1)
+            else:
+                frame.active.set(0)
 
-        root.add(self)
+    def onTimelineChange(self, frame):
+        self.command(frame)

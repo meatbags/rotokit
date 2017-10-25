@@ -64,48 +64,71 @@ class Master(tk.PanedWindow):
         self.onLayerListChange = lambda frame, layer: self.canvas.drawFrames(self.frames)
         self.layerList = LayerList(self.sidebarInner, self.onLayerListChange)
 
+        # timeline
+        self.onTimelineChange = lambda frame: print(frame)
+        self.timeline = Timeline(self.mainLowerInner, self.onTimelineChange)
+
     def createFrame(self):
         # frames
-        self.frames = [Frame('A'), Frame('B')]
+        self.frames = [Frame(name) for name in ['A', 'B', 'C', 'D', 'E']]
+        self.activeFrames = [self.frames[0], self.frames[1]]
+
+        # add frames to timeline
+        self.timeline.addFrames(self.frames)
 
         # add layer lists
-        self.layerList.addFrames(self.frames)
+        self.layerList.addFrames(self.activeFrames)
 
         # canvas
         self.canvas = CanvasWorkspace(self.mainUpperInner)
-        self.canvas.drawFrames(self.frames)
+        self.canvas.drawFrames(self.activeFrames)
+
+    def isSpecialKeyDown(self):
+        specialKeysDown = sum([1 for key in self.specialKeys if self.specialKeys[key] == True])
+
+        return (specialKeysDown > 0)
 
     def setTool(self, toolId):
-        self.toolsDraw.setTool(toolId)
         self.attributeText.set(toolId)
 
+    def setToolFromKey(self, toolId):
+        if not self.isSpecialKeyDown():
+            self.toolsDraw.setTool(toolId)
+            self.attributeText.set(toolId)
+
     def setEvents(self):
-        def setKey(key, value):
-            self.keys[key] = value
+        self.specialKeys = {
+            'Shift': False,
+            'Ctrl': False,
+            'Alt': False
+        };
+
+        def setSpecialKey(key, value):
+            self.specialKeys[key] = value
 
         self.keyDown = {
-            'Shift_R': (lambda e: setKey('Shift', True)),
-            'Shift_L': (lambda e: setKey('Shift', True)),
-            'Control_R': (lambda e: setKey('Ctrl', True)),
-            'Control_L': (lambda e: setKey('Ctrl', True)),
-            'Alt_R': (lambda e: setKey('Alt', True)),
-            'Alt_L': (lambda e: setKey('Alt', True)),
-            'h': (lambda e: self.setTool(Config['Tools']['Draw']['Hand'])),
-            'v': (lambda e: self.setTool(Config['Tools']['Draw']['Select'])),
-            't': (lambda e: self.setTool(Config['Tools']['Draw']['Transform'])),
-            'z': (lambda e: self.setTool(Config['Tools']['Draw']['Zoom'])),
-            'p': (lambda e: self.setTool(Config['Tools']['Draw']['Pen'])),
-            'b': (lambda e: self.setTool(Config['Tools']['Draw']['Brush'])),
-            's': (lambda e: self.setTool(Config['Tools']['Draw']['Sculpt'])),
-            'm': (lambda e: self.setTool(Config['Tools']['Draw']['Mask']))
+            'Shift_R': (lambda e: setSpecialKey('Shift', True)),
+            'Shift_L': (lambda e: setSpecialKey('Shift', True)),
+            'Control_R': (lambda e: setSpecialKey('Ctrl', True)),
+            'Control_L': (lambda e: setSpecialKey('Ctrl', True)),
+            'Alt_R': (lambda e: setSpecialKey('Alt', True)),
+            'Alt_L': (lambda e: setSpecialKey('Alt', True)),
+            'h': (lambda e: self.setToolFromKey(Config['Tools']['Draw']['Hand'])),
+            'v': (lambda e: self.setToolFromKey(Config['Tools']['Draw']['Select'])),
+            't': (lambda e: self.setToolFromKey(Config['Tools']['Draw']['Transform'])),
+            'z': (lambda e: self.setToolFromKey(Config['Tools']['Draw']['Zoom'])),
+            'p': (lambda e: self.setToolFromKey(Config['Tools']['Draw']['Pen'])),
+            'b': (lambda e: self.setToolFromKey(Config['Tools']['Draw']['Brush'])),
+            's': (lambda e: self.setToolFromKey(Config['Tools']['Draw']['Sculpt'])),
+            'm': (lambda e: self.setToolFromKey(Config['Tools']['Draw']['Mask']))
         }
         self.keyRelease = {
-            'Shift_R': (lambda e: setKey('Shift', False)),
-            'Shift_L': (lambda e: setKey('Shift', False)),
-            'Control_R': (lambda e: setKey('Ctrl', True)),
-            'Control_L': (lambda e: setKey('Ctrl', True)),
-            'Alt_R': (lambda e: setKey('Alt', True)),
-            'Alt_L': (lambda e: setKey('Alt', True))
+            'Shift_R': (lambda e: setSpecialKey('Shift', False)),
+            'Shift_L': (lambda e: setSpecialKey('Shift', False)),
+            'Control_R': (lambda e: setSpecialKey('Ctrl', False)),
+            'Control_L': (lambda e: setSpecialKey('Ctrl', False)),
+            'Alt_R': (lambda e: setSpecialKey('Alt', False)),
+            'Alt_L': (lambda e: setSpecialKey('Alt', False))
         }
         self.keys = {
             'Shift': False,
