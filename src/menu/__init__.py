@@ -1,1 +1,1 @@
-from src.menu.menubar import MenuBar
+from src.menu.menu_handler import MenuHandler

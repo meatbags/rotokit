@@ -1,9 +1,9 @@
-import tkinter as tk
+import Tkinter as tk
 from src.config import Config
 
 class TimelineFrame(tk.Frame):
     def __init__(self, root, id, command, **kw):
-        super().__init__(root, borderwidth=4, relief=tk.SUNKEN, **kw)
+        tk.Frame.__init__(self, root, borderwidth=4, relief=tk.SUNKEN, **kw)
         self.pack(side=tk.LEFT)
         self.id = str(id)
         self.command = command

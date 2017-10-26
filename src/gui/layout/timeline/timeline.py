@@ -1,10 +1,10 @@
-import tkinter as tk
+import Tkinter as tk
 from src.gui.layout.timeline.timeline_frame import TimelineFrame
 from src.config import Config
 
 class Timeline(tk.Frame):
     def __init__(self, root, command, **kw):
-        super().__init__(root, borderwidth=4, relief=tk.SUNKEN, **kw)
+        tk.Frame.__init__(self, root, borderwidth=4, relief=tk.SUNKEN, **kw)
         self.pack(fill=tk.X, side=tk.TOP)
         self.command = command
 

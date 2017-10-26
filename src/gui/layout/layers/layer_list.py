@@ -1,8 +1,8 @@
-import tkinter as tk
+import Tkinter as tk
 
 class LayerList(tk.Frame):
     def __init__(self, root, onChange):
-        super().__init__(root, borderwidth=4, relief=tk.SUNKEN)
+        tk.Frame.__init__(self, root, borderwidth=4, relief=tk.SUNKEN)
         self.pack(side=tk.TOP, fill=tk.BOTH)
         self.onChange = lambda frame, layer: onChange(frame, layer)
 

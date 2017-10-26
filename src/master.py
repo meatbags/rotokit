@@ -1,72 +1,53 @@
-import tkinter as tk
+import Tkinter as tk
+from src.canvas import *
 from src.config import *
 from src.core import *
 from src.frame import *
 from src.gui import *
+from src.tools import *
 
-class Master(tk.PanedWindow):
+class Master(tk.Frame):
     def __init__(self, root, **kw):
         # master pane
-        super().__init__(root)
-        self.config(orient=tk.HORIZONTAL, sashrelief=tk.SUNKEN, sashwidth=2, **kw)
-        self.pack()
+        tk.Frame.__init__(self, root, **kw)
+        self.pack(fill=tk.BOTH, expand=1)
 
         # set up
         self.createLayout()
-        self.createTools()
-        self.createFrame()
+        self.createHandlers()
 
         # events
         self.setEvents()
 
     def createLayout(self):
-        # master window
-        self.main = Pane(self, orient=tk.VERTICAL, sashrelief=tk.SUNKEN, sashwidth=2)
+        # main window
+        self.main = tk.Frame(self, borderwidth=4, relief=tk.SUNKEN)
+        self.main.pack(side=tk.LEFT, fill=tk.BOTH, expand=1)
+        self.mainUpper = tk.Frame(self.main)
+        self.mainUpper.pack(side=tk.TOP, fill=tk.X, expand=1)
+        self.mainLower = tk.Frame(self.main)
+        self.mainLower.pack(side=tk.BOTTOM, fill=tk.X, expand=1)
 
-        # upper
-        self.mainUpper = Pane(self.main)
-        self.mainUpperInner = tk.Frame(self.mainUpper)
-        self.mainUpper.add(self.mainUpperInner)
+        # side bar
+        self.side = tk.Frame(self)
+        self.side.pack(side=tk.RIGHT, fill=tk.Y)
 
-        # lower
-        self.mainLower = Pane(self.main)
-        self.mainLowerInner = tk.Frame(self.mainLower)
-        self.mainLower.add(self.mainLowerInner)
-
-        # sidebar
-        self.sidebar = Pane(self, orient=tk.VERTICAL)
-        self.sidebarInner = tk.Frame(self.sidebar, borderwidth=4, relief=tk.SUNKEN)
-        self.sidebar.add(self.sidebarInner, width=360)
-
-    def createTools(self):
+    def createHandlers(self):
         # toolbars
-        self.toolBarSide = tk.Frame(self.sidebarInner, borderwidth=4, relief=tk.SUNKEN)
-        self.toolBarSide.pack(side=tk.TOP, fill=tk.X)
-        self.toolBarLower = tk.Frame(self.mainLowerInner)
-        self.toolBarLower.pack(side=tk.TOP, fill=tk.X, expand=1)
-
-        # tools
-        self.toolsDraw = ToolBox(self.toolBarSide, 'Draw', self.handleToolBoxChange, tools=Config['Tools']['Draw'], radio=True, columns=2)
-        self.toolsTransfer = ToolBox(self.toolBarLower, 'Transfer', self.handleToolBoxChange, tools=Config['Tools']['Transfer'])
-        self.toolsMatch = ToolBox(self.toolBarLower, 'Match', self.handleToolBoxChange, tools=Config['Tools']['Match'])
-        self.toolPath = ToolPath()
-
-        # tool attributes
-        self.attributeText = tk.StringVar()
-        self.toolAttributes = tk.Label(self.mainUpperInner, textvariable=self.attributeText, borderwidth=4, relief=tk.SUNKEN)
-        self.toolAttributes.pack(side=tk.TOP, fill=tk.X, expand=1)
+        def onToolHandler(toolbox, tool):
+            self.toolHandler.setTool(tool.id)
+        self.toolHandler = ToolHandler(self, onToolHandler)
 
         # colour picker
-        self.colourPicker = tk.Label(self.sidebarInner, text='Colour Picker')
+        self.colourPicker = tk.Label(self.side, text='Colour Picker')
         self.colourPicker.pack(side=tk.TOP)
 
         # layers
-        self.layerList = LayerList(self.sidebarInner, self.handleLayerListChange)
+        self.layerList = LayerList(self.side, self.handleLayerListChange)
 
         # timeline
-        self.timeline = Timeline(self.mainLowerInner, self.handleTimelineChange)
+        self.timeline = Timeline(self.mainLower, self.handleTimelineChange)
 
-    def createFrame(self):
         # frames
         self.frameHandler = FrameHandler()
         self.frameHandler.addFrame('A', 'B', 'C', 'D', 'E')
@@ -79,21 +60,13 @@ class Master(tk.PanedWindow):
         self.layerList.setActiveFrames(self.frameHandler.activeFrames)
 
         # canvas
-        self.canvasHandler = CanvasHandler(self.mainUpperInner, self.handleCanvasMouseDown, self.handleCanvasMouseMove, self.handleCanvasMouseRelease)
+        self.canvasHandler = CanvasHandler(self.mainUpper, self.handleCanvasMouseDown, self.handleCanvasMouseMove, self.handleCanvasMouseRelease)
         self.canvasHandler.drawFrames(self.frameHandler.activeFrames)
 
     def isSpecialKeyDown(self):
         specialKeysDown = sum([1 for key in self.specialKeys if self.specialKeys[key] == True])
 
         return (specialKeysDown > 0)
-
-    def setTool(self, toolId):
-        self.attributeText.set(toolId)
-
-    def setToolFromKey(self, toolId):
-        if not self.isSpecialKeyDown():
-            self.toolsDraw.setTool(toolId)
-            self.attributeText.set(toolId)
 
     def setEvents(self):
         self.specialKeys = {
@@ -105,6 +78,10 @@ class Master(tk.PanedWindow):
         def setSpecialKey(key, value):
             self.specialKeys[key] = value
 
+        def setToolFromKey(key):
+            if not self.isSpecialKeyDown():
+                self.toolHandler.setToolFromKey(Config['Tools']['Draw'][key])
+
         self.keyDown = {
             'Shift_R': (lambda e: setSpecialKey('Shift', True)),
             'Shift_L': (lambda e: setSpecialKey('Shift', True)),
@@ -112,14 +89,14 @@ class Master(tk.PanedWindow):
             'Control_L': (lambda e: setSpecialKey('Ctrl', True)),
             'Alt_R': (lambda e: setSpecialKey('Alt', True)),
             'Alt_L': (lambda e: setSpecialKey('Alt', True)),
-            'h': (lambda e: self.setToolFromKey(Config['Tools']['Draw']['Hand'])),
-            'v': (lambda e: self.setToolFromKey(Config['Tools']['Draw']['Select'])),
-            't': (lambda e: self.setToolFromKey(Config['Tools']['Draw']['Transform'])),
-            'z': (lambda e: self.setToolFromKey(Config['Tools']['Draw']['Zoom'])),
-            'p': (lambda e: self.setToolFromKey(Config['Tools']['Draw']['Pen'])),
-            'b': (lambda e: self.setToolFromKey(Config['Tools']['Draw']['Brush'])),
-            's': (lambda e: self.setToolFromKey(Config['Tools']['Draw']['Sculpt'])),
-            'm': (lambda e: self.setToolFromKey(Config['Tools']['Draw']['Mask']))
+            'h': (lambda e: setToolFromKey('Hand')),
+            'v': (lambda e: setToolFromKey('Select')),
+            't': (lambda e: setToolFromKey('Transform')),
+            'z': (lambda e: setToolFromKey('Zoom')),
+            'p': (lambda e: setToolFromKey('Pen')),
+            'b': (lambda e: setToolFromKey('Brush')),
+            's': (lambda e: setToolFromKey('Sculpt')),
+            'm': (lambda e: setToolFromKey('Mask'))
         }
         self.keyRelease = {
             'Shift_R': (lambda e: setSpecialKey('Shift', False)),
@@ -137,17 +114,17 @@ class Master(tk.PanedWindow):
 
     def handleCanvasMouseDown(self, canvas, mouse):
         self.canvasHandler.setActiveCanvas(canvas.id)
-        self.toolPath.trace(mouse.x, mouse.y)
-        self.canvasHandler.drawToolPath(self.toolPath)
+        self.toolHandler.updateToolPath(mouse)
+        self.canvasHandler.drawToolPath(self.toolHandler.toolPath)
 
     def handleCanvasMouseMove(self, canvas, mouse):
-        self.toolPath.trace(mouse.x, mouse.y)
-        self.canvasHandler.drawToolPath(self.toolPath)
+        self.toolHandler.updateToolPath(mouse)
+        self.canvasHandler.drawToolPath(self.toolHandler.toolPath)
 
     def handleCanvasMouseRelease(self, canvas, mouse):
         print('UP', canvas.id, mouse.x, mouse.y)
-        self.toolPath.clear()
-        self.canvasHandler.drawToolPath(self.toolPath)
+        self.toolHandler.clearToolPath()
+        self.canvasHandler.drawToolPath(self.toolHandler.toolPath)
 
     def handleToolBoxChange(self, toolbox, tool):
         self.setTool(tool.id)
@@ -164,7 +141,6 @@ class Master(tk.PanedWindow):
         self.layerList.setActiveFrames(self.frameHandler.activeFrames)
 
         # redraw
-        self.frameHandler.resetDraw()
         self.canvasHandler.clearAll()
         self.canvasHandler.drawFrames(self.frameHandler.activeFrames)
 

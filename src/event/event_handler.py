@@ -1,6 +1,6 @@
-from src.gui.event.mouse import Mouse
+from src.event.mouse import Mouse
 
-class Events:
+class EventHandler:
     def __init__(self, *roots):
         self.roots = [root for root in roots]
         self.keys = {}

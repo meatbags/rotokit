@@ -1,11 +1,15 @@
-import tkinter as tk
+import Tkinter as tk
 
 class Tool:
     def __init__(self, id, name, command):
         self.id = str(id)
         self.name = str(name)
-        self.checkVar = tk.IntVar()
+
+        # commands
         self.command = command;
+
+        # vars
+        self.checkVar = tk.IntVar()
 
     def getRadioButton(self, root, var=None, row=0, column=0):
         self.radioButton = tk.Radiobutton(
@@ -29,5 +33,4 @@ class Tool:
         ).grid(row=row, column=column, sticky=tk.NW)
 
     def onChange(self):
-        # pass event up
         self.command(self)

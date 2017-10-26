@@ -1,15 +1,17 @@
 from src.frame.frame import Frame
+from src.config import Config
 
 class FrameHandler:
     def __init__(self):
         self.frames = []
         self.activeFrames = []
-        self.activeIndex = [] # placeholder
+        self.activeIndex = []
+        self.size = Config['Canvas']['DefaultSize']
 
     def addFrame(self, *names):
         # add frames
         for name in names:
-            self.frames.append(Frame(name))
+            self.frames.append(Frame(name, self.size))
 
         if len(self.activeIndex) == 0:
             self.activeIndex.append(0)
@@ -21,14 +23,7 @@ class FrameHandler:
 
         for i in range(len(self.frames)):
             if i in self.activeIndex:
-                self.frames[i].activate()
                 self.activeFrames.append(self.frames[i])
-            else:
-                self.frames[i].disable()
-
-    def resetDraw(self):
-        for frame in self.frames:
-            frame.resetDraw()
 
     def toggleFrame(self, timelineFrame, maxActive):
         # add or remove frame from active frames

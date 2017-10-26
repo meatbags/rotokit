@@ -1,23 +1,24 @@
-import tkinter as tk
+import Tkinter as tk
 from src.master import Master
 from src.gui import *
 from src.menu import *
 from src.config import *
+from src.event import *
 
 class App(tk.Tk):
     def __init__(self):
-        super().__init__()
-        self.title('')
+        tk.Tk.__init__(self)
+        self.title('Rotokit')
         self.iconbitmap('icon.ico')
 
         # create menus & tools
-        self._master = Master(self)
-        self._menu = MenuBar(self, lambda menu, item: self._master.handleMenuItem(item))
+        self.masterHandler = Master(self)
+        self.menuHandler = MenuHandler(self, lambda menu, item: self.masterHandler.handleMenuItem(item))
 
         # keyboard events
-        self._events = Events(self)
-        self._events.bindKeyDown(lambda event: self._master.handleKeyDown(event))
-        self._events.bindKeyRelease(lambda event: self._master.handleKeyRelease(event))
+        self.eventHandler = EventHandler(self)
+        self.eventHandler.bindKeyDown(lambda event: self.masterHandler.handleKeyDown(event))
+        self.eventHandler.bindKeyRelease(lambda event: self.masterHandler.handleKeyRelease(event))
 
         # run
         self.mainloop()

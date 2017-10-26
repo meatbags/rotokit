@@ -1,12 +1,12 @@
-import tkinter as tk
+import Tkinter as tk
 from src.config import Config
-from src.gui.layout.canvas.canvas import Canvas
+from src.canvas.canvas import Canvas
 
 class CanvasHandler(tk.Frame):
     def __init__(self, root, onMouseDown, onMouseMove, onMouseRelease):
-        super().__init__(root)
+        tk.Frame.__init__(self, root, borderwidth=4, relief=tk.SUNKEN)
         self.config(width=Config['Workspace']['DefaultSize'][0], height=Config['Workspace']['DefaultSize'][1])
-        self.pack(fill=tk.BOTH)
+        self.pack(side=tk.TOP, fill=tk.BOTH, expand=1)
 
         # events
         self.onMouseDown = lambda canvas, mouse: onMouseDown(canvas, mouse)

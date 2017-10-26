@@ -1,50 +1,49 @@
 from src.frame.layer import Layer
-import tkinter as tk
+import Tkinter as tk
 import random
 
 class Frame:
-    def __init__(self, id):
+    def __init__(self, id, size):
         self.id = str(id)
+        self.size = size
 
         # vars
         self.lastSelectedLayerVar = tk.StringVar()
         self.selectedLayerVar = tk.StringVar()
         self.lastSoloVar = tk.StringVar()
         self.soloVar = tk.StringVar()
-        self.active = False
+        self.soloMode = False
+        self.soloLayer = None
 
         # layers
         self.layers = []
         self.newLayer('Background')
 
-        for i in range(random.randrange(1, 10)):
+        for i in range(random.randrange(1, 4)):
             self.newLayer('L' + str(i))
-
-    def draw(self, canvas):
-        solo = self.soloVar.get()
-
-        if solo == '':
-            for layer in self.layers:
-                layer.draw(canvas)
-        else:
-            for layer in self.layers:
-                if layer.id == solo:
-                    layer.draw(canvas)
-                else:
-                    layer.hide(canvas)
 
     def newLayer(self, label):
         # add new blank layer
         id = self.id + '_layer_' + str(len(self.layers))
-        self.layers.append(Layer(self, id, label))
+        self.layers.append(Layer(self, id, label, self.size))
+
+    def getLayerById(self, id):
+        for layer in self.layers:
+            if layer.id == id:
+                return layer
+
+        return None
 
     def setSoloLayer(self):
         # set solo layer
         if self.lastSoloVar.get() == self.soloVar.get():
             self.lastSoloVar.set('')
             self.soloVar.set('')
+            self.soloMode = False
         else:
             self.lastSoloVar.set(self.soloVar.get())
+            self.soloMode = True
+            self.soloLayer = self.getLayerById(self.soloVar.get())
 
     def setSelectedLayer(self):
         # set selected layer
@@ -79,13 +78,3 @@ class Frame:
                 soloCmd=self.onSoloLayer,
                 hideCmd=self.onHideLayer
             )
-
-    def resetDraw(self):
-        for layer in self.layers:
-            layer.resetDraw()
-
-    def activate(self):
-        self.active = True
-
-    def disable(self):
-        self.active = False
