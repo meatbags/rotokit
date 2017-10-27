@@ -1,7 +1,6 @@
 from src.config import Config
-from src.maths import Transform, Vector
+from src.maths import Transform, Vector, BezierCurve
 from src.frame.path import Path
-from src.frame.path_objects import BezierCurve
 import random
 import Tkinter as tk
 from PIL import ImageTk, Image

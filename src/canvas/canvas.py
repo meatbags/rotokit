@@ -4,8 +4,7 @@ from src.event import EventHandler
 from src.frame import Layer
 from src.canvas.canvas_renderer import CanvasRenderer
 from src.frame import Path
-from src.frame.path_objects import BezierCurve
-from src.maths import Vector
+from src.maths import Vector, BezierCurve
 
 class Canvas(tk.Canvas):
     def __init__(self, root, id, onMouseDown, onMouseMove, onMouseRelease, **kw):
@@ -58,7 +57,7 @@ class Canvas(tk.Canvas):
                     Vector(points[-4], points[-3])
                 )
             )
-            
+
             # draw
             self.renderer.renderLayer(self, self.toolLayer)
         else:
