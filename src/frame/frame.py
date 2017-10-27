@@ -1,6 +1,5 @@
 from src.frame.layer import Layer
 import Tkinter as tk
-import random
 
 class Frame:
     def __init__(self, id, size):
@@ -19,7 +18,7 @@ class Frame:
         self.layers = []
         self.newLayer('Background')
 
-        for i in range(random.randrange(1, 4)):
+        for i in range(3):
             self.newLayer('L' + str(i))
 
     def newLayer(self, label):

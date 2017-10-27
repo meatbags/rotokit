@@ -1,9 +1,11 @@
 from src.config import Config
-from src.maths import Transform
-from src.frame.frame_objects import Path
+from src.maths import Transform, Vector
+from src.frame.path import Path
+from src.frame.path_objects import BezierCurve
 import random
 import Tkinter as tk
-from PIL import ImageTk
+from PIL import ImageTk, Image
+from random import random
 
 class Layer:
     def __init__(self, parent, id, name, size):
@@ -11,13 +13,15 @@ class Layer:
         self.id = str(id)
         self.name = str(name)
         self.size = size
-        self.image = ImageTk.PhotoImage('RGBA', self.size)
+        self.input = None
+        self.output = None
 
         # vars
         self.hiddenVar = tk.IntVar()
         self.lockedVar = tk.IntVar()
-        self.requiresDraw = True
         self.hidden = False
+        self.requiresDraw = True
+        self.requiresPartialDraw = False
 
         # transform
         self.transform = Transform()
@@ -25,15 +29,40 @@ class Layer:
         # paths
         self.paths = []
 
-        for i in range(5):
-            self.addPath()
+        for i in range(3):
+            p = Path(self.uid('path'))
+            p.addObject(
+                BezierCurve(
+                    Vector(random() * 100, random() * 100),
+                    Vector(random() * 100, random() * 100),
+                    Vector(random() * 100, random() * 100),
+                    Vector(random() * 100, random() * 100)
+                )
+            )
+            self.addPath(p)
 
-    def clearImage(self):
-        self.image = ImageTk.PhotoImage('RGBA', self.size)
+    def addPath(self, path):
+        self.paths.append(path)
 
-    def addPath(self):
-        id = self.id + '_path_' + str(len(self.paths))
-        self.paths.append(Path(self, id))
+    def uid(self, prefix):
+        if hasattr(self, 'counter'):
+            self.counter += 1
+        else:
+            self.counter = 0
+
+        uid = self.id + '_' + prefix + '_' + str(self.counter)
+
+        return uid
+
+    def clearInput(self):
+        self.input = Image.new('RGBA', self.size)
+
+    def clearOutput(self):
+        self.output = ImageTk.PhotoImage('RGBA', self.size)
+
+    def clear(self):
+        self.paths = []
+        self.requiresDraw = True
 
     def addListItem(self, root, selectVar=None, selectCmd=None, soloVar=None, soloCmd=None, hideCmd=None):
         # container
