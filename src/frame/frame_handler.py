@@ -4,6 +4,8 @@ from src.config import Config
 class FrameHandler:
     def __init__(self):
         self.frames = []
+        self.activeFrame = None
+        self.activeFrameIndex = None
         self.activeFrames = []
         self.activeIndex = []
         self.size = Config['Canvas']['DefaultSize']
@@ -24,6 +26,15 @@ class FrameHandler:
         for i in range(len(self.frames)):
             if i in self.activeIndex:
                 self.activeFrames.append(self.frames[i])
+
+    def setActiveFrame(self, index):
+        if len(self.activeFrames) > index:
+            self.activeFrame = self.activeFrames[index]
+            self.activeFrameIndex = index
+
+    def parseToolPath(self, toolPath):
+        if self.activeFrame:
+            self.activeFrame.parseToolPath(toolPath)
 
     def toggleFrame(self, timelineFrame, maxActive):
         # add or remove frame from active frames

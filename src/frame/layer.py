@@ -28,20 +28,28 @@ class Layer:
         # paths
         self.paths = []
 
-        for i in range(3):
-            p = Path(self.uid('path'))
-            p.addObject(
-                BezierCurve(
-                    Vector(random() * 100, random() * 100),
-                    Vector(random() * 100, random() * 100),
-                    Vector(random() * 100, random() * 100),
-                    Vector(random() * 100, random() * 100)
-                )
-            )
-            self.addPath(p)
 
     def addPath(self, path):
         self.paths.append(path)
+        print('path len', len(self.paths))
+
+    def parseToolPath(self, toolPath):
+        newPath = Path(self.uid('path'))
+
+        for i in range(len(toolPath.points) - 1):
+            p0 = toolPath.points[i]
+            p1 = toolPath.points[i + 1]
+            newPath.addObject(
+                BezierCurve(
+                    Vector(p0.x, p0.y),
+                    Vector(p1.x, p1.y),
+                    Vector(p0.x, p0.y),
+                    Vector(p1.x, p1.y)
+                )
+            )
+
+        self.addPath(newPath)
+        self.requiresPartialDraw = True
 
     def uid(self, prefix):
         if hasattr(self, 'counter'):

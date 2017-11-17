@@ -25,7 +25,7 @@ class CanvasHandler(tk.Frame):
         for i in range(len(self.canvasStack)):
             if self.canvasStack[i].id == id:
                 self.activeCanvas = self.canvasStack[i]
-                self.activeCanvasIndex = 1
+                self.activeCanvasIndex = i
                 break
 
     def clearAll(self):

@@ -15,10 +15,11 @@ class Frame:
         self.soloLayer = None
 
         # layers
+        self.activeLayer = None
         self.layers = []
         self.newLayer('Background')
 
-        for i in range(3):
+        for i in range(2):
             self.newLayer('L' + str(i))
 
     def newLayer(self, label):
@@ -32,6 +33,10 @@ class Frame:
                 return layer
 
         return None
+
+    def parseToolPath(self, toolPath):
+        if self.activeLayer:
+            self.activeLayer.parseToolPath(toolPath)
 
     def setSoloLayer(self):
         # set solo layer
@@ -49,8 +54,16 @@ class Frame:
         if self.lastSelectedLayerVar.get() == self.selectedLayerVar.get():
             self.lastSelectedLayerVar.set('')
             self.selectedLayerVar.set('')
+            self.activeLayer = None
         else:
             self.lastSelectedLayerVar.set(self.selectedLayerVar.get())
+            self.activeLayer = self.getLayerById(self.selectedLayerVar.get())
+            print('active', self.activeLayer.id);
+
+    def selectDefaultLayer(self):
+        if len(self.layers) > 0 and self.selectedLayerVar.get() == '':
+            self.selectedLayerVar.set(self.layers[0].id)
+            self.setSelectedLayer()
 
     def addListItems(self, root, onChange):
         # methods

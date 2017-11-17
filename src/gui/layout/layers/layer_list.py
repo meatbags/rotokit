@@ -19,6 +19,7 @@ class LayerList(tk.Frame):
             layerList = tk.Frame(self, borderwidth=4, relief=tk.SUNKEN)
             layerList.pack(side=tk.LEFT, fill=tk.Y)
             frames[i].addListItems(layerList, self.onChange)
+            frames[i].selectDefaultLayer()
             separator = tk.Frame(self, width=10)
             separator.pack(side=tk.LEFT, fill=tk.Y)
 

@@ -114,6 +114,7 @@ class Master(tk.Frame):
 
     def handleCanvasMouseDown(self, canvas, mouse):
         self.canvasHandler.setActiveCanvas(canvas.id)
+        self.frameHandler.setActiveFrame(self.canvasHandler.activeCanvasIndex)
         self.toolHandler.updateToolPath(mouse)
         self.canvasHandler.drawToolPath(self.toolHandler.toolPath)
 
@@ -123,8 +124,10 @@ class Master(tk.Frame):
 
     def handleCanvasMouseRelease(self, canvas, mouse):
         print('UP', canvas.id, mouse.x, mouse.y)
+        self.frameHandler.parseToolPath(self.toolHandler.toolPath)
         self.toolHandler.clearToolPath()
         self.canvasHandler.drawToolPath(self.toolHandler.toolPath)
+        self.canvasHandler.drawFrames(self.frameHandler.activeFrames)
 
     def handleToolBoxChange(self, toolbox, tool):
         self.setTool(tool.id)
