@@ -12,6 +12,9 @@ class ToolHandler:
         self.currentTool = None
         self.frameAttributesText = tk.StringVar()
 
+        # tool path
+        self.toolPath = ToolPath()
+        
         # layout
         self.frameSide = tk.Frame(root.side, borderwidth=4, relief=tk.SUNKEN)
         self.frameSide.pack(side=tk.TOP, fill=tk.X)
@@ -26,10 +29,6 @@ class ToolHandler:
         self.toolBoxDraw = ToolBox(self.frameSide, 'Draw', self.onChange, tools=Config['Tools']['Draw'], radio=True, columns=2)
         self.toolsTransfer = ToolBox(self.frameLower, 'Transfer', self.onChange, tools=Config['Tools']['Transfer'])
         self.toolsMatch = ToolBox(self.frameLower, 'Match', self.onChange, tools=Config['Tools']['Match'])
-        self.toolPath = ToolPath()
-
-        # tool path
-        self.toolPath = ToolPath()
 
     def onChange(self, toolBox, tool):
         self.command(toolBox, tool)

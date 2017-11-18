@@ -5,6 +5,7 @@ import random
 import Tkinter as tk
 from PIL import ImageTk, Image
 from random import random
+from src.frame.layer_tool_handler import LayerToolHandler
 
 class Layer:
     def __init__(self, parent, id, name, size):
@@ -12,6 +13,8 @@ class Layer:
         self.id = str(id)
         self.name = str(name)
         self.size = size
+
+        # images
         self.input = None
         self.output = None
 
@@ -19,8 +22,12 @@ class Layer:
         self.hiddenVar = tk.IntVar()
         self.lockedVar = tk.IntVar()
         self.hidden = False
+        self.locked = False
         self.requiresDraw = True
         self.requiresPartialDraw = False
+
+        # tool hanlder
+        self.layerToolHandler = LayerToolHandler()
 
         # transform
         self.transform = Transform()
@@ -28,28 +35,12 @@ class Layer:
         # paths
         self.paths = []
 
-
     def addPath(self, path):
         self.paths.append(path)
         print('path len', len(self.paths))
 
-    def parseToolPath(self, toolPath):
-        newPath = Path(self.uid('path'))
-
-        for i in range(len(toolPath.points) - 1):
-            p0 = toolPath.points[i]
-            p1 = toolPath.points[i + 1]
-            newPath.addObject(
-                BezierCurve(
-                    Vector(p0.x, p0.y),
-                    Vector(p1.x, p1.y),
-                    Vector(p0.x, p0.y),
-                    Vector(p1.x, p1.y)
-                )
-            )
-
-        self.addPath(newPath)
-        self.requiresPartialDraw = True
+    def parseTool(self, toolId, toolPath):
+        self.layerToolHandler.parse(toolId, toolPath, self)
 
     def uid(self, prefix):
         if hasattr(self, 'counter'):
@@ -81,6 +72,10 @@ class Layer:
             self.hidden = (self.hiddenVar.get() == 1)
             hideCmd(self)
 
+        # lock
+        def onLock():
+            self.locked = (self.lockedVar.get() == 1)
+
         # buttons
         buttonSelect = tk.Radiobutton(item, variable=selectVar, command=lambda:selectCmd(self), value=self.id, text=self.name, font=Config['Global']['Font'], indicatoron=False)
         buttonSelect.pack(side=tk.LEFT, fill=tk.BOTH, expand=1)
@@ -88,5 +83,5 @@ class Layer:
         buttonHide.pack(side=tk.RIGHT)
         buttonSolo = tk.Radiobutton(item, variable=soloVar, command=lambda:soloCmd(self), value=self.id, text='S', indicatoron=False)
         buttonSolo.pack(side=tk.RIGHT)
-        buttonLock = tk.Checkbutton(item, variable=self.lockedVar, text='L', indicatoron=False)
+        buttonLock = tk.Checkbutton(item, variable=self.lockedVar, command=onLock, text='L', indicatoron=False)
         buttonLock.pack(side=tk.RIGHT)

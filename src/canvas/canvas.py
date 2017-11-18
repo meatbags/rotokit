@@ -28,11 +28,17 @@ class Canvas(tk.Canvas):
         # renderer
         self.renderer = CanvasRenderer(self.size)
 
-        # fixed tool layer
-        self.toolLayer = Layer(self, self.id + '_Tool', '', self.size)
-        self.toolLayer.clear()
+        # selection draw layer
+        self.selectionLayer = Layer(self, self.id + '_Selection', '', self.size)
+        self.selectionLayer.clear()
 
-    def drawToolPath(self, toolPath):
+        # tool draw layer
+        self.toolLayerStatic = Layer(self, self.id + '_ToolStatic', '', self.size)
+        self.toolLayerDynamic = Layer(self, self.id + '_ToolDynamic', '', self.size)
+        self.toolLayerStatic.clear()
+        self.toolLayerDynamic.clear()
+
+    def drawToolPath(self, toolId, toolPath):
         if len(toolPath.points) > 1:
             # get points from tool path
             points = []
@@ -43,13 +49,13 @@ class Canvas(tk.Canvas):
             toolPath.drawIndex = i
 
             # create path and flag for draw
-            if len(self.toolLayer.paths) == 0:
-                self.toolLayer.addPath(Path('temp'))
+            if len(self.toolLayerStatic.paths) == 0:
+                self.toolLayerStatic.addPath(Path('temp'))
             else:
-                self.toolLayer.requiresPartialDraw = True
+                self.toolLayerStatic.requiresPartialDraw = True
 
             # add new line
-            self.toolLayer.paths[0].addObject(
+            self.toolLayerStatic.paths[0].addObject(
                 BezierCurve(
                     Vector(points[-2], points[-1]),
                     Vector(points[-4], points[-3]),
@@ -59,14 +65,26 @@ class Canvas(tk.Canvas):
             )
 
             # draw
-            self.renderer.renderLayer(self, self.toolLayer)
+            self.renderer.renderLayer(self, self.toolLayerStatic)
+
+            # draw bounding box
+            if len(self.toolLayerDynamic.paths) == 0:
+                self.toolLayerDynamic.addPath(Path('temp'))
+
+            self.toolLayerDynamic.paths[0].objects = [toolPath.boundingBoxInner]
+            self.toolLayerDynamic.paths[0].drawFrom = 0
+            self.toolLayerDynamic.requiresDraw = True
+
+            self.renderer.renderLayer(self, self.toolLayerDynamic)
         else:
-            self.renderer.hideLayer(self, self.toolLayer)
-            self.toolLayer.clear()
+            self.renderer.hideLayer(self, self.toolLayerStatic)
+            self.renderer.hideLayer(self, self.toolLayerDynamic)
+            self.toolLayerStatic.clear()
+            self.toolLayerDynamic.clear()
 
     def clear(self):
         self.renderer.clear(self)
-
+        
     def draw(self, frame):
         if not frame.soloMode:
             self.renderer.render(self, frame)

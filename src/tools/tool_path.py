@@ -8,6 +8,7 @@ class ToolPath:
         self.y = 0
         self.threshold = 1
         self.boundingBox = BoundingBox(self.points)
+        self.boundingBoxInner = BoundingBox(self.points)
         self.drawIndex = 0
 
     def addPoint(self, x, y):
@@ -16,6 +17,7 @@ class ToolPath:
         self.lastPoint = point
         self.points.append(point)
         self.boundingBox.set(self.points)
+        self.boundingBoxInner.set([self.points[0], self.points[-1]])
 
     def trace(self, x, y):
         # check if point should be added
@@ -27,3 +29,4 @@ class ToolPath:
         self.points = []
         self.drawIndex = 0
         self.boundingBox.set(self.points)
+        self.boundingBoxInner.set(self.points)

@@ -32,9 +32,9 @@ class FrameHandler:
             self.activeFrame = self.activeFrames[index]
             self.activeFrameIndex = index
 
-    def parseToolPath(self, toolPath):
+    def parseTool(self, toolId, toolPath):
         if self.activeFrame:
-            self.activeFrame.parseToolPath(toolPath)
+            self.activeFrame.parseTool(toolId, toolPath)
 
     def toggleFrame(self, timelineFrame, maxActive):
         # add or remove frame from active frames

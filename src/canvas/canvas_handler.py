@@ -32,8 +32,8 @@ class CanvasHandler(tk.Frame):
         for canvas in self.canvasStack:
             canvas.clear()
 
-    def drawToolPath(self, toolPath):
-        self.activeCanvas.drawToolPath(toolPath)
+    def drawToolPath(self, toolId, toolPath):
+        self.activeCanvas.drawToolPath(toolId, toolPath)
 
     def addCanvas(self, n):
         for i in range(n):

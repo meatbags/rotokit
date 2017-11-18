@@ -34,9 +34,9 @@ class Frame:
 
         return None
 
-    def parseToolPath(self, toolPath):
+    def parseTool(self, toolId, toolPath):
         if self.activeLayer:
-            self.activeLayer.parseToolPath(toolPath)
+            self.activeLayer.parseTool(toolId, toolPath)
 
     def setSoloLayer(self):
         # set solo layer

@@ -1,5 +1,6 @@
 import aggdraw
 import Tkinter as tk
+from src.maths import TYPE_BEZIER_CURVE, TYPE_BOUNDING_BOX
 
 class CanvasRenderer:
     def __init__(self, size):
@@ -38,9 +39,15 @@ class CanvasRenderer:
                 stop = len(path.objects)
                 for i in range(start, stop, 1):
                     obj = path.objects[i]
-                    draw.line((obj.p1.x, obj.p1.y, obj.p2.x, obj.p2.y), self.pen)
+                    if obj.type == TYPE_BEZIER_CURVE:
+                        draw.line((obj.p1.x, obj.p1.y, obj.p2.x, obj.p2.y), self.pen)
+                    elif obj.type == TYPE_BOUNDING_BOX:
+                        draw.line((obj.min.x, obj.min.y, obj.max.x, obj.min.y), self.pen)
+                        draw.line((obj.max.x, obj.min.y, obj.max.x, obj.max.y), self.pen)
+                        draw.line((obj.max.x, obj.max.y, obj.min.x, obj.max.y), self.pen)
+                        draw.line((obj.min.x, obj.max.y, obj.min.x, obj.min.y), self.pen)
                 path.drawFrom = stop
-
+            
             # pass PIL image to ImageTk.PhotoImage and place on canvas
             draw.flush()
             layer.output.paste(layer.input)
