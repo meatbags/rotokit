@@ -8,7 +8,13 @@ class BezierCurve:
         self.cp1 = cp1
         self.cp2 = cp2
         self.fill = 'black'
+        self.length = self.getLength()
 
-    def getPoints(self):
-        # return pointlist
-        pass
+    def getLength(self):
+        # imprecise but cheap
+
+        chord = self.p1.distanceTo(self.p2)
+        segments = self.p1.distanceTo(self.cp1) + self.cp1.distanceTo(self.cp2) + self.cp2.distanceTo(self.p2)
+        roughLength = (chord + segments) / 2
+
+        return roughLength

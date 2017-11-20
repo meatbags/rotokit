@@ -20,5 +20,5 @@ class Vector:
         self.x -= vec.x
         self.y -= vec.y
 
-    def distanceBetween(self, vec):
+    def distanceTo(self, vec):
         return math.sqrt(math.pow(vec.x - self.x, 2) + math.pow(vec.y - self.y, 2))

@@ -2,6 +2,11 @@ Config = {
     'Global': {
         'Font': ('Arial', 9)
     },
+    'Core': {
+        'Weight': {
+
+        }
+    },
     'Root': {
         'InitialDimensions': '1060x640'
     },
