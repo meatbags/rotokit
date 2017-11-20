@@ -17,10 +17,9 @@ class Frame:
         # layers
         self.activeLayer = None
         self.layers = []
-        self.newLayer('Background')
 
-        for i in range(2):
-            self.newLayer('L' + str(i))
+        for i in range(3):
+            self.newLayer('Layer_' + str(i))
 
     def newLayer(self, label):
         # add new blank layer

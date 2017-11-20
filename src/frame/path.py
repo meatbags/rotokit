@@ -9,14 +9,16 @@ class Path:
         self.drawFrom = 0
         self.selected = False
         self.transform = Transform()
-        self.profile = Profile(self)
+
+        # searching
+        self.profile = None
 
         # animation
         self.origin = None
         self.destination = None
 
         # easing
-        self.easing = Config.core.easing.default
+        self.easing = Config['Core']['Easing']['Default']
 
     def getPoints(self, time):
         # time should be [-1, 1]

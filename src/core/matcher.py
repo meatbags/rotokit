@@ -17,5 +17,6 @@ class Matcher:
         for path in b:
             path.updateGroup(b)
 
-        # match !
-        pass
+        # match
+        for path in a:
+            pass

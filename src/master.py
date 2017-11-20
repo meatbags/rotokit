@@ -50,7 +50,7 @@ class Master(tk.Frame):
 
         # frames
         self.frameHandler = FrameHandler()
-        self.frameHandler.addFrame('A', 'B', 'C', 'D', 'E')
+        self.frameHandler.addFrame('Frame_0', 'Frame_1', 'Frame_2')
 
         # add frames to timeline
         self.timeline.addFrames(self.frameHandler.frames)

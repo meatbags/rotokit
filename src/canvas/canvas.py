@@ -84,7 +84,7 @@ class Canvas(tk.Canvas):
 
     def clear(self):
         self.renderer.clear(self)
-        
+
     def draw(self, frame):
         if not frame.soloMode:
             self.renderer.render(self, frame)

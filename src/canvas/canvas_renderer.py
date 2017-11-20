@@ -6,7 +6,7 @@ class CanvasRenderer:
     def __init__(self, size):
         self.size = size
         self.centre = (size[0]/2, size[1]/2)
-        self.pen = aggdraw.Pen('black')
+        self.pen = aggdraw.Pen('black', 2.35)
 
     def clear(self, canvas):
         canvas.delete('all')
@@ -47,7 +47,7 @@ class CanvasRenderer:
                         draw.line((obj.max.x, obj.max.y, obj.min.x, obj.max.y), self.pen)
                         draw.line((obj.min.x, obj.max.y, obj.min.x, obj.min.y), self.pen)
                 path.drawFrom = stop
-            
+
             # pass PIL image to ImageTk.PhotoImage and place on canvas
             draw.flush()
             layer.output.paste(layer.input)

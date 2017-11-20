@@ -7,7 +7,7 @@ class FrameHandler:
         self.activeFrame = None
         self.activeFrameIndex = None
         self.activeFrames = []
-        self.activeIndex = []
+        self.activeIndex = [0, 1]
         self.size = Config['Canvas']['DefaultSize']
 
     def addFrame(self, *names):
@@ -15,9 +15,7 @@ class FrameHandler:
         for name in names:
             self.frames.append(Frame(name, self.size))
 
-        if len(self.activeIndex) == 0:
-            self.activeIndex.append(0)
-            self.activateFrames()
+        self.activateFrames()
 
     def activateFrames(self):
         # create list of ordered active frames
