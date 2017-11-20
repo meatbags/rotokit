@@ -2,9 +2,9 @@ from src.config import Config
 
 class Profile:
     def __init__(self, path):
-        self.parse(path)
+        self.path(path)
 
-    def parse(path):
+    def path(self, path):
         self.length = sum(bez.length for bez in path.objects)
         self.minX = min(min(bez.p1.x, bez.p2.x) for bez in path.objects),
         self.minY = min(min(bez.p1.y, bez.p2.y) for bez in path.objects)
@@ -14,3 +14,5 @@ class Profile:
         self.height = self.maxY - self.minY
         self.x = self.minX + self.width / 2
         self.y = self.minY + self.height / 2
+
+    def group(self, g):

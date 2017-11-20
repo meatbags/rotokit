@@ -3,15 +3,26 @@ Config = {
         'Font': ('Arial', 9)
     },
     'Core': {
+        'Easing': {
+            'Default': 'EASING_LINEAR',
+            'Linear': 'EASING_LINEAR',
+            'In': 'EASING_EASE_IN',
+            'Out': 'EASING_EASE_OUT',
+            'InAndOut': 'EASING_EASING_IN_AND_OUT',
+            'Soften': 'EASING_SOFTEN',
+            'Centre': 'EASING_CENTRE'
+        },
         'Weight': {
-
+            'Length': 1,
+            'CentreOfGravity': 1,
+            'InternalAngle': 1
         }
     },
     'Root': {
         'InitialDimensions': '1060x640'
     },
     'Canvas': {
-        'DefaultSize': (320, 240),
+        'DefaultSize': (540, 400),
         'BackgroundColour': '#ffffff',
         'Padding': {
             'x': 16,
