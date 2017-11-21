@@ -111,7 +111,7 @@ class Master(tk.Frame):
     def handleCanvasMouseDown(self, canvas, mouse):
         self.canvasHandler.setActiveCanvas(canvas.id)
         self.frameHandler.setActiveFrame(self.canvasHandler.activeCanvasIndex)
-        self.toolHandler.updateToolPath(mouse)
+        self.toolHandler.beginToolPath(mouse)
         self.canvasHandler.drawToolPath(self.toolHandler.currentTool, self.toolHandler.toolPath)
 
     def handleCanvasMouseMove(self, canvas, mouse):

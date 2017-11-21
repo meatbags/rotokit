@@ -35,7 +35,9 @@ Config = {
     'Workspace': {
         'DefaultSize': (960, 540),
     },
-    'Tool': {},
+    'Tool': {
+        'FloatRadius': 4
+    },
     'Tools': {
         'Draw': {
             'Select': 'TOOL_DRAW_SELECT',

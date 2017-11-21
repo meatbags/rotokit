@@ -30,7 +30,6 @@ class CanvasHandler(tk.Frame):
         self.previewCanvasStack = []
         self.addPreviewCanvas(3)
 
-
     def setActiveCanvas(self, id):
         for i in range(len(self.canvasStack)):
             if self.canvasStack[i].id == id:

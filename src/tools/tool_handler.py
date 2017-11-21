@@ -43,8 +43,11 @@ class ToolHandler:
         self.currentTool = id
         self.frameAttributesText.set(id)
 
+    def beginToolPath(self, mouse):
+        self.toolPath.beginPath(mouse.x, mouse.y)
+
     def updateToolPath(self, mouse):
-        self.toolPath.trace(mouse.x, mouse.y)
+        self.toolPath.moveTo(mouse.x, mouse.y)
 
     def clearToolPath(self):
-        self.toolPath.clear()
+        self.toolPath.clearPath()
