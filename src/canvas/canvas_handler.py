@@ -2,6 +2,7 @@ import Tkinter as tk
 from src.config import Config
 from src.canvas.canvas import Canvas
 from src.canvas.preview_canvas import PreviewCanvas
+from src.core import interpolatePaths
 
 class CanvasHandler(tk.Frame):
     def __init__(self, root, onMouseDown, onMouseMove, onMouseRelease):
@@ -52,9 +53,42 @@ class CanvasHandler(tk.Frame):
     def addPreviewCanvas(self, n):
         for i in range(n):
             id = 'PreviewCanvas_' + str(i)
-            self.canvasStack.append(PreviewCanvas(self.previewCanvasFrame, id))
+            self.previewCanvasStack.append(PreviewCanvas(self.previewCanvasFrame, id))
 
     def drawFrames(self, frames):
         for i in range(len(frames)):
             if i < len(self.canvasStack):
                 self.canvasStack[i].draw(frames[i])
+
+    def drawPreview(self, frames):
+        length = len(self.previewCanvasStack)
+        timeStep = 1.0 / (length + 1)
+        print('Rendering preview frames @', timeStep)
+
+        if len(frames) > 1:
+            # get frames
+            a = frames[0]
+            b = frames[1]
+
+            for i in range(length):
+                # get time & inverse time
+                time = (i + 1) * timeStep
+                inverseTime = time - 1
+
+                # interpolate
+                interpolatePaths(a, time)
+                interpolatePaths(b, inverseTime)
+
+                # superimpose frames on preview canvas
+                self.previewCanvasStack[i].draw([a, b])
+
+        elif len(frames) > 0:
+            # get frame
+            a = frames[0]
+
+            for i in range(length):
+                time = (i + 1) * timeStep
+                interpolatePaths(a, time)
+
+                # draw frame on preview canvas
+                self.previewCanvasStack[i].draw([a])

@@ -8,6 +8,8 @@ def easeInAndOut(value):
 
 def applyEasing(easing, value):
     if easing == Config['Core']['Easing']['Linear']:
+        if value < 0:
+            value += 1
         return value
 
     elif easing == Config['Core']['Easing']['Out']:

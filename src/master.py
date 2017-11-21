@@ -34,9 +34,7 @@ class Master(tk.Frame):
 
     def createHandlers(self):
         # toolbars
-        def onToolHandler(toolbox, tool):
-            self.toolHandler.setTool(tool.id)
-        self.toolHandler = ToolHandler(self, onToolHandler)
+        self.toolHandler = ToolHandler(self, self.handleToolChange)
 
         # timeline
         self.timeline = Timeline(self.side, self.handleTimelineChange)
@@ -108,6 +106,13 @@ class Master(tk.Frame):
             'Alt': False
         }
 
+    def handleToolChange(self, toolbox, tool):
+        self.toolHandler.setTool(tool.id)
+        print(toolbox.id, tool.id)
+
+        if tool.id == Config['Tools']['Preview']['Render']:
+            self.canvasHandler.drawPreview(self.frameHandler.activeFrames)
+
     def handleCanvasMouseDown(self, canvas, mouse):
         self.canvasHandler.setActiveCanvas(canvas.id)
         self.frameHandler.setActiveFrame(self.canvasHandler.activeCanvasIndex)
@@ -123,9 +128,6 @@ class Master(tk.Frame):
         self.toolHandler.clearToolPath()
         self.canvasHandler.drawToolPath(self.toolHandler.currentTool, self.toolHandler.toolPath)
         self.canvasHandler.drawFrames(self.frameHandler.activeFrames)
-
-    def handleToolBoxChange(self, toolbox, tool):
-        self.setTool(tool.id)
 
     def handleLayerListChange(self, frame, layer):
         self.canvasHandler.drawFrames(self.frameHandler.activeFrames)

@@ -31,6 +31,8 @@ class ToolHandler:
         self.toolsTransfer = ToolBox(self.frameUpper, 'Transfer', self.onChange, tools=Config['Tools']['Transfer'])
         self.divider2 = tk.Label(self.frameUpper, width=2, text='|').pack(side=tk.LEFT, padx=10)
         self.toolsMatch = ToolBox(self.frameUpper, 'Match', self.onChange, tools=Config['Tools']['Match'])
+        self.divider3 = tk.Label(self.frameUpper, width=2, text='|').pack(side=tk.LEFT, padx=10)
+        self.toolsPreview = ToolBox(self.frameUpper, 'Preview', self.onChange, tools=Config['Tools']['Preview'])
 
     def onChange(self, toolBox, tool):
         self.command(toolBox, tool)

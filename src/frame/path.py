@@ -1,4 +1,4 @@
-from src.maths import Transform
+from src.maths import Transform, applyEasing
 from src.core import Profile
 from src.config import Config
 
@@ -20,10 +20,26 @@ class Path:
         # easing
         self.easing = Config['Core']['Easing']['Default']
 
-    def getPoints(self, time):
-        # time should be [-1, 1]
-        t = time
-        pass
+        # draw settings
+        self.lineWidth = 1
+
+    def setTween(self, time):
+        # tweening between origin or destination
+        # get easing [0, 1]
+        t = applyEasing(self.easing, time)
+        print(t)
+
+        # tween backwards or forwards
+        if time >= 0:
+            if self.destination:
+                pass
+            else:
+                self.lineWidth = 1 - t
+        else:
+            if self.origin:
+                pass
+            else:
+                self.lineWidth = t
 
     def updateProfile(self):
         self.profile.path(self)

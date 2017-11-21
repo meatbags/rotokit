@@ -30,7 +30,7 @@ Config = {
         }
     },
     'PreviewCanvas': {
-        'DefaultSize': (400, 266)
+        'DefaultSize': (400, 250)
     },
     'Workspace': {
         'DefaultSize': (960, 540),
@@ -58,6 +58,10 @@ Config = {
             'Break': 'TOOL_MATCH_BREAK',
             'Conform': 'TOOL_MATCH_CONFORM',
             'Highlight': 'TOOL_MATCH_HIGHLIGHT'
+        },
+        'Preview': {
+            'Render': 'TOOL_PREVIEW_RENDER',
+            'RealTime': 'TOOL_PREVIEW_REAL_TIME'
         }
     },
     'Menu': {

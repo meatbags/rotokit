@@ -46,23 +46,25 @@ class Canvas(tk.Canvas):
             for i in range(toolPath.drawIndex, len(toolPath.points), 1):
                 points.extend([toolPath.points[i].x, toolPath.points[i].y])
                 lines += 1
-            toolPath.drawIndex = i
 
-            # create path and flag for draw
-            if len(self.toolLayerStatic.paths) == 0:
-                self.toolLayerStatic.addPath(Path('temp'))
-            else:
-                self.toolLayerStatic.requiresPartialDraw = True
+            if len(points) > 3:
+                toolPath.drawIndex = i
 
-            # add new line
-            self.toolLayerStatic.paths[0].addObject(
-                BezierCurve(
-                    Vector(points[-2], points[-1]),
-                    Vector(points[-4], points[-3]),
-                    Vector(points[-2], points[-1]),
-                    Vector(points[-4], points[-3])
+                # create path and flag for draw
+                if len(self.toolLayerStatic.paths) == 0:
+                    self.toolLayerStatic.addPath(Path('temp'))
+                else:
+                    self.toolLayerStatic.requiresPartialDraw = True
+
+                # add new line
+                self.toolLayerStatic.paths[0].addObject(
+                    BezierCurve(
+                        Vector(points[-2], points[-1]),
+                        Vector(points[-4], points[-3]),
+                        Vector(points[-2], points[-1]),
+                        Vector(points[-4], points[-3])
+                    )
                 )
-            )
 
             # draw
             self.renderer.renderLayer(self, self.toolLayerStatic)

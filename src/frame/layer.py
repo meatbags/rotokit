@@ -66,7 +66,7 @@ class Layer:
         # container
         item = tk.Frame(root, relief=tk.SUNKEN)
         item.pack(side=tk.TOP, fill=tk.X, expand=1)
-
+        
         # hide
         def onHide():
             self.hidden = (self.hiddenVar.get() == 1)

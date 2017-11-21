@@ -17,7 +17,7 @@ class ToolPath:
 
         self.position.x = self.float.x = x
         self.position.y = self.float.y = y
-        self.addPoint(x, y)
+        self._addPoint(x, y)
 
     def moveTo(self, x, y):
         # move to point, draw if outside radius
@@ -38,6 +38,7 @@ class ToolPath:
 
     def _addPoint(self, x, y):
         # add a new point to path
+
         point = WeightedPoint(x, y, 1)
         self.lastPoint = point
         self.points.append(point)
