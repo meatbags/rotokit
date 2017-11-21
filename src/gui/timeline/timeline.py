@@ -1,5 +1,5 @@
 import Tkinter as tk
-from src.gui.layout.timeline.timeline_frame import TimelineFrame
+from src.gui.timeline.timeline_frame import TimelineFrame
 from src.config import Config
 
 class Timeline(tk.Frame):

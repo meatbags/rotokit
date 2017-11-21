@@ -24,7 +24,7 @@ class Master(tk.Frame):
         self.main = tk.Frame(self, borderwidth=4, relief=tk.SUNKEN)
         self.main.pack(side=tk.LEFT, fill=tk.BOTH, expand=1)
         self.mainUpper = tk.Frame(self.main)
-        self.mainUpper.pack(side=tk.TOP, fill=tk.X, expand=1)
+        self.mainUpper.pack(side=tk.TOP, fill=tk.X)
         self.mainLower = tk.Frame(self.main)
         self.mainLower.pack(side=tk.BOTTOM, fill=tk.X, expand=1)
 
