@@ -22,12 +22,15 @@ Config = {
         'InitialDimensions': '1060x640'
     },
     'Canvas': {
-        'DefaultSize': (540, 400),
+        'DefaultSize': (600, 400),
         'BackgroundColour': '#ffffff',
         'Padding': {
             'x': 16,
             'y': 16
         }
+    },
+    'PreviewCanvas': {
+        'DefaultSize': (400, 266)
     },
     'Workspace': {
         'DefaultSize': (960, 540),

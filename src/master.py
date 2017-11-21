@@ -38,15 +38,11 @@ class Master(tk.Frame):
             self.toolHandler.setTool(tool.id)
         self.toolHandler = ToolHandler(self, onToolHandler)
 
-        # colour picker
-        self.colourPicker = tk.Label(self.side, text='Colour Picker')
-        self.colourPicker.pack(side=tk.TOP)
+        # timeline
+        self.timeline = Timeline(self.side, self.handleTimelineChange)
 
         # layers
         self.layerList = LayerList(self.side, self.handleLayerListChange)
-
-        # timeline
-        self.timeline = Timeline(self.mainLower, self.handleTimelineChange)
 
         # frames
         self.frameHandler = FrameHandler()

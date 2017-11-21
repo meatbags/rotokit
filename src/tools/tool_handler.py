@@ -14,10 +14,10 @@ class ToolHandler:
 
         # tool path
         self.toolPath = ToolPath()
-        
+
         # layout
-        self.frameSide = tk.Frame(root.side, borderwidth=4, relief=tk.SUNKEN)
-        self.frameSide.pack(side=tk.TOP, fill=tk.X)
+        self.frameUpper = tk.Frame(root.mainUpper)
+        self.frameUpper.pack(side=tk.TOP, fill=tk.X)
         self.frameLower = tk.Frame(root.mainLower, borderwidth=4, relief=tk.SUNKEN)
         self.frameLower.pack(side=tk.TOP, fill=tk.X)
         self.frameAttributes = tk.Frame(root.mainUpper, borderwidth=4, relief=tk.SUNKEN)
@@ -26,9 +26,11 @@ class ToolHandler:
         self.frameAttributesLabel.pack(side=tk.TOP)
 
         # toolbars
-        self.toolBoxDraw = ToolBox(self.frameSide, 'Draw', self.onChange, tools=Config['Tools']['Draw'], radio=True, columns=2)
-        self.toolsTransfer = ToolBox(self.frameLower, 'Transfer', self.onChange, tools=Config['Tools']['Transfer'])
-        self.toolsMatch = ToolBox(self.frameLower, 'Match', self.onChange, tools=Config['Tools']['Match'])
+        self.toolBoxDraw = ToolBox(self.frameUpper, 'Draw', self.onChange, tools=Config['Tools']['Draw'], radio=True)
+        self.divider1 = tk.Label(self.frameUpper, width=2, text='|').pack(side=tk.LEFT, padx=10)
+        self.toolsTransfer = ToolBox(self.frameUpper, 'Transfer', self.onChange, tools=Config['Tools']['Transfer'])
+        self.divider2 = tk.Label(self.frameUpper, width=2, text='|').pack(side=tk.LEFT, padx=10)
+        self.toolsMatch = ToolBox(self.frameUpper, 'Match', self.onChange, tools=Config['Tools']['Match'])
 
     def onChange(self, toolBox, tool):
         self.command(toolBox, tool)

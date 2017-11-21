@@ -18,8 +18,9 @@ class Tool:
             value=self.id,
             text=self.name,
             command=self.onChange,
-            width=10,
-            indicatoron=False
+            width=8,
+            indicatoron=False,
+            borderwidth=1
         ).grid(row=row, column=column, sticky=tk.NW)
 
     def getCheckButton(self, root, row=0, column=0):
@@ -28,8 +29,9 @@ class Tool:
             command=self.onChange,
             variable=self.checkVar,
             text=self.name,
-            width=10,
-            indicatoron=False
+            width=8,
+            indicatoron=False,
+            borderwidth=1
         ).grid(row=row, column=column, sticky=tk.NW)
 
     def onChange(self):
