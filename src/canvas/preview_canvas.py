@@ -13,7 +13,7 @@ class PreviewCanvas(tk.Canvas):
 
         # image references
         self.images = []
-        
+
         # renderer
         self.renderer = CanvasRenderer(self.size)
 

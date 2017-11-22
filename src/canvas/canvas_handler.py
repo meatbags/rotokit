@@ -3,6 +3,7 @@ from src.config import Config
 from src.canvas.canvas import Canvas
 from src.canvas.preview_canvas import PreviewCanvas
 from src.core import interpolatePaths
+from src.time import Timer
 
 class CanvasHandler(tk.Frame):
     def __init__(self, root, onMouseDown, onMouseMove, onMouseRelease):
@@ -30,6 +31,9 @@ class CanvasHandler(tk.Frame):
         self.previewCanvasFrame.pack(side=tk.TOP, fill=tk.X, padx=Config['Canvas']['Padding']['x'])
         self.previewCanvasStack = []
         self.addPreviewCanvas(3)
+
+        # testing
+        self.timer = Timer()
 
     def setActiveCanvas(self, id):
         for i in range(len(self.canvasStack)):
@@ -65,6 +69,9 @@ class CanvasHandler(tk.Frame):
         timeStep = 1.0 / (length + 1)
         print('Rendering preview frames @', timeStep)
 
+        # time it
+        self.timer.start()
+
         if len(frames) > 1:
             # get frames
             a = frames[0]
@@ -92,3 +99,6 @@ class CanvasHandler(tk.Frame):
 
                 # draw frame on preview canvas
                 self.previewCanvasStack[i].draw([a])
+
+        self.timer.stop()
+        print('Preview in', self.timer.elapsed)

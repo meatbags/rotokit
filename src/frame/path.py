@@ -27,7 +27,6 @@ class Path:
         # tweening between origin or destination
         # get easing [0, 1]
         t = applyEasing(self.easing, time)
-        print(t)
 
         # tween backwards or forwards
         if time >= 0:
